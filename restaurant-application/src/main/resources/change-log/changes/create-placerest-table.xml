@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+    <changeSet  id="7.12.2020-15.17"  author="furkan.ekim">
+        <createTable tableName="place_rest">
+            <column autoIncrement="true" name="id" type="INT(10)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column  name="name" type="nvarchar(50)"/>
+            <column  name="table_piece" type="INT(10)"/>
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>

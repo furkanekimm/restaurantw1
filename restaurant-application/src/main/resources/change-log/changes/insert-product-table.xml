@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+    <!--<changeSet  id="7.12.2020-15.10"  author="furkan.ekim">
+        <insert tableName="product">
+            <column name="id" valueNumeric="1"/>
+            <column name="description" value="Cold"/>
+            <column name="price" valueNumeric="8"/>
+            <column name="product_name" value="Kola"/>
+            <column name="url_to_image" value="https://productimages.hepsiburada.net/s/10/375/9219505782834.jpg"/>
+        </insert>
+        <insert tableName="product">
+            <column name="id" valueNumeric="2"/>
+            <column name="description" value="Cold"/>
+            <column name="price" valueNumeric="8"/>
+            <column name="product_name" value="Fanta"/>
+            <column name="url_to_image" value="https://migros-dali-storage-prod.global.ssl.fastly.net/sanalmarket/product/08020000/08020000-b2f664.jpg"/>
+        </insert>
+        <insert tableName="product">
+            <column name="id" valueNumeric="3"/>
+            <column name="description" value="Dessert"/>
+            <column name="price" valueNumeric="12"/>
+            <column name="product_name" value="Tulumba"/>
+            <column name="url_to_image" value="https://www.pakmayaprofesyonellerdunyasi.com/uploads/Tarif/tulumba-tatlisi.jpg"/>
+        </insert>
+        <insert tableName="product">
+            <column name="id" valueNumeric="4"/>
+            <column name="description" value="Dessert"/>
+            <column name="price" valueNumeric="20"/>
+            <column name="product_name" value="Baklava"/>
+            <column name="url_to_image" value="https://st2.myideasoft.com/idea/ep/01/myassets/products/028/fistikli-baklava-klasik.jpg?revision=1560431896"/>
+        </insert>
+        <insert tableName="product">
+            <column name="id" valueNumeric="5"/>
+            <column name="description" value="Hot"/>
+            <column name="price" valueNumeric="5"/>
+            <column name="product_name" value="Mercimek"/>
+            <column name="url_to_image" value="https://im.haberturk.com/2020/04/23/ver1587621896/2655814_810x458.jpg"/>
+        </insert>
+        <insert tableName="product">
+            <column name="id" valueNumeric="6"/>
+            <column name="description" value="Hot"/>
+            <column name="price" valueNumeric="5"/>
+            <column name="product_name" value="Ezogelin"/>
+            <column name="url_to_image" value="https://im.haberturk.com/2020/01/17/ver1579268613/ezogelin-corbasi-nasil-yapilir_2559708_1200x627.jpg"/>
+        </insert>
+
+    </changeSet>-->
+
+
+</databaseChangeLog>

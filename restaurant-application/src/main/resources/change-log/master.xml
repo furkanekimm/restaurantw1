@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.liquibase.org/xml/ns/dbchangelog">
+    <include relativeToChangelogFile="true" file="/changes/create-users-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/create-role-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/create-user_roles-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/create-media-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/create-cart-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/create-category-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/create-placerest-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/create-waiter-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/create-product-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/create-category_product-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/insert-roles-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/insert-user-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/insert-category-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/insert-placerest-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/insert-product-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/insert-user_roles-table.xml"/>
+
+
+</databaseChangeLog>
+
+
+

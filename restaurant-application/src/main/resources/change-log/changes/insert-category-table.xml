@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+    <!--<changeSet  id="7.12.2020-15.10"  author="furkan.ekim">
+        <insert tableName="category">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="Drink"/>
+            <column name="description" value="Cold"/>
+            <column name="url_to_image" value="1"/>
+        </insert>
+        <insert tableName="category">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="Dessert"/>
+            <column name="description" value="dessert"/>
+            <column name="url_to_image" value="null"/>
+        </insert>
+        <insert tableName="category">
+            <column name="id" valueNumeric="3"/>
+            <column name="name" value="Soup"/>
+            <column name="description" value="Hot"/>
+            <column name="url_to_image" value="null"/>
+        </insert>
+    </changeSet>-->
+
+
+</databaseChangeLog>

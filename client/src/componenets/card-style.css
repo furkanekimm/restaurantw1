@@ -1,0 +1,58 @@
+body{
+    background: radial-gradient(#e5e5e5,#ffff,#e5e5e5);
+}
+
+
+.card:hover{
+    box-shadow: 5px 10px 20px 1px rgba(0,0,0,0.253)!important;
+}
+
+
+.card-body{
+    padding: 0.6rem 0rem!important;
+}
+
+.card-option{
+    height: 600px;
+    width: 430px;
+}
+
+.card-header-tr{
+    height: 530px;
+    width: 430px;
+    overflow-y: scroll;
+}
+
+.center-login{
+    margin-top: 200px;
+    border-radius: initial;
+}
+
+
+.list-scrool{
+    height: 600px;
+    overflow-y: scroll;
+}
+
+.righttotal{
+    padding-left: 40px;
+}
+
+.btn-size{
+    width: 250px;
+}
+
+.card-text{
+    font-size: .7rem;
+    padding: 0.4rem 1.9rem;
+}
+
+
+.container-fluid.row{
+    padding-top: 6rem;
+}
+
+.card-img{
+    width: 10rem;
+    height: 10rem;
+}

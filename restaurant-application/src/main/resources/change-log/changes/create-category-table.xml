@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+    <changeSet  id="7.12.2020-15.15"  author="furkan.ekim">
+        <createTable tableName="category">
+            <column autoIncrement="true" name="id" type="INT(10)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="nvarchar(50)"/>
+            <column name="description" type="nvarchar(50)"/>
+            <column name="url_to_image" type="nvarchar(250)"/>
+            <column name="media_id" type="INT(10)">
+                <constraints foreignKeyName="fk_media_id" references="media(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>
