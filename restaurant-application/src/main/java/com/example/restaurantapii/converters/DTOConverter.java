@@ -38,7 +38,7 @@ public class DTOConverter {
         waiter.setWaiterLastName(waiterDTO.getWaiterLastName());
         waiter.setEmail(waiterDTO.getEmail());
         waiter.setPhoneNumber(waiterDTO.getPhoneNumber());
-        waiter.setMedia(waiterDTO.getMedia());
+        //waiter.setMedia(waiterDTO.getMediadto());
         return waiter;
     }
 

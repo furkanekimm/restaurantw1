@@ -35,4 +35,9 @@ public class PlaceRestController {
         return placeRestService.updatePlaceRest(placeRestDTO);
     }
 
+    @GetMapping("/{id}")
+    public PlaceRestDTO getTableById(@PathVariable Long id){
+        return placeRestService.getTableById(id);
+    }
+
 }

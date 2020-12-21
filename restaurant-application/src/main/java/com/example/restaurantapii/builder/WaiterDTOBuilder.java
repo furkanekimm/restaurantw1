@@ -1,5 +1,6 @@
 package com.example.restaurantapii.builder;
 
+import com.example.restaurantapii.dto.MediaDTO;
 import com.example.restaurantapii.dto.WaiterDTO;
 import com.example.restaurantapii.entity.Media;
 
@@ -8,7 +9,7 @@ public class WaiterDTOBuilder extends Builder {
     private String waiterLastName;
     private Long phoneNumber;
     private String email;
-    private Media media;
+    private MediaDTO mediadto;
 
 
     @Override
@@ -19,11 +20,11 @@ public class WaiterDTOBuilder extends Builder {
         waiterDTO.setWaiterLastName(this.waiterLastName);
         waiterDTO.setPhoneNumber(this.phoneNumber);
         waiterDTO.setEmail(this.email);
-        waiterDTO.setMedia(this.media);
+        waiterDTO.setMediadto(this.mediadto);
         return waiterDTO;
     }
-    public WaiterDTOBuilder media(Media media){
-        this.media=media;
+    public WaiterDTOBuilder media(MediaDTO media){
+        this.mediadto=media;
         return this;
     }
 

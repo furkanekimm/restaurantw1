@@ -1,5 +1,6 @@
 package com.example.restaurantapii.services;
 
+import com.example.restaurantapii.Mapper.TableMapper;
 import com.example.restaurantapii.converters.DTOConverter;
 import com.example.restaurantapii.converters.EntityConvertor;
 import com.example.restaurantapii.dto.PlaceRestDTO;
@@ -8,6 +9,7 @@ import com.example.restaurantapii.repository.PlaceRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,23 +20,20 @@ public class PlaceRestService {
     PlaceRestRepository placeRestRepository;
 
     public PlaceRestDTO addPlaceRest(PlaceRestDTO placeRestDTO){
-        placeRestRepository.save(DTOConverter.convertDTOPlaceRest(placeRestDTO));
+        placeRestRepository.save(TableMapper.INSTANCE.toEntity(placeRestDTO));
         return placeRestDTO;
     }
 
     public List<PlaceRestDTO> listPlaceRests(){
         List<PlaceRestDTO> placeRestListDTO = new ArrayList<>();
         List<PlaceRest> placeRestList = placeRestRepository.findAll();
-        placeRestList.forEach(placeRest -> placeRestListDTO.add(EntityConvertor.convertToPlaceRest(placeRest)));
+        placeRestList.forEach(placeRest -> placeRestListDTO.add(TableMapper.INSTANCE.toDTO(placeRest)));
         return placeRestListDTO;
     }
 
-  /*  public Optional<PlaceRest> findById(Long id){
-        return placeRestRepository.findById(id);
-    }*/
 
     public PlaceRestDTO updatePlaceRest(PlaceRestDTO placeRestDTO){
-        placeRestRepository.saveAndFlush(DTOConverter.convertDTOPlaceRest(placeRestDTO));
+        placeRestRepository.saveAndFlush(TableMapper.INSTANCE.toEntity(placeRestDTO));
         return placeRestDTO;
     }
 
@@ -44,5 +43,10 @@ public class PlaceRestService {
         }
         placeRestRepository.deleteById(id);
         return true;
+    }
+
+    public PlaceRestDTO getTableById(Long id){
+        PlaceRestDTO placeRestDTO = TableMapper.INSTANCE.toDTO(placeRestRepository.findById(id).get());
+        return placeRestDTO;
     }
 }

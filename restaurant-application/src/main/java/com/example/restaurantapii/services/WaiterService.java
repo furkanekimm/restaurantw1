@@ -25,7 +25,7 @@ public class WaiterService {
 
     public Boolean addWaiter(WaiterDTO waiterDTO){
         Waiter waiter = DTOConverter.convertDTOWaiter(waiterDTO);
-        Media media = mediaRepository.findById(waiterDTO.getMedia().getId()).get();
+        Media media = mediaRepository.findById(waiterDTO.getMediadto().getId()).get();
         waiter.setMedia(media);
         waiterRepository.save(waiter);
         return true;
@@ -33,7 +33,7 @@ public class WaiterService {
 
     public WaiterDTO updateWaiter(WaiterDTO waiterDTO){
         Waiter waiter = DTOConverter.convertDTOWaiter(waiterDTO);
-        Media media = mediaRepository.findById(waiterDTO.getMedia().getId()).get();
+        Media media = mediaRepository.findById(waiterDTO.getMediadto().getId()).get();
         waiter.setMedia(media);
         waiterRepository.saveAndFlush(DTOConverter.convertDTOWaiter(waiterDTO));
         return waiterDTO;

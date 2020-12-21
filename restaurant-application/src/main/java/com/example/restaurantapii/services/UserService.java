@@ -66,5 +66,10 @@ public class UserService {
         return roleDTOList;
     }
 
+    public UserDTO getUserByID(Long id){
+        UserDTO userDTO = EntityConvertor.convertToUser(userRepository.findById(id).get());
+        return userDTO;
+    }
+
 
 }

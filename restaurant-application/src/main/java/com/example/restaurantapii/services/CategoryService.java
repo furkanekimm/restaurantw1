@@ -1,5 +1,6 @@
 package com.example.restaurantapii.services;
 
+import com.example.restaurantapii.Mapper.CategoryMapper;
 import com.example.restaurantapii.converters.DTOConverter;
 import com.example.restaurantapii.converters.EntityConvertor;
 import com.example.restaurantapii.dto.CategoryDTO;
@@ -42,7 +43,7 @@ public class CategoryService {
     }
 
     public CategoryDTO addCategory(CategoryDTO categoryDTO){
-        Category category = DTOConverter.convertDTOCategory(categoryDTO);
+        Category category = CategoryMapper.INSTANCE.toEntity(categoryDTO);
         Media media =mediaRepository.findById(categoryDTO.getMediaId()).get();
         category.setMedia(media);
         categoryRepository.save(category);
@@ -52,13 +53,13 @@ public class CategoryService {
     public List<CategoryDTO> allCategories(){
         List<CategoryDTO> categoryDTOList = new ArrayList<>();
         List<Category> categoryList = categoryRepository.findAll();
-        categoryList.forEach(category -> categoryDTOList.add(EntityConvertor.convertToCategory(category)));
+        categoryList.forEach(category -> categoryDTOList.add(CategoryMapper.INSTANCE.toDTO(category)));
         return categoryDTOList;
     }
 
 
     public boolean updateCategory(CategoryDTO categoryDTO){
-        Category category1 = DTOConverter.convertDTOCategory(categoryDTO);
+        Category category1 = CategoryMapper.INSTANCE.toEntity(categoryDTO);
         Media media = mediaRepository.findById(categoryDTO.getMediaId()).get();
         category1.setMedia(media);
         Category category = categoryRepository.saveAndFlush(category1);
@@ -67,4 +68,10 @@ public class CategoryService {
         }
         return true;
     }
+
+        public CategoryDTO getCategoryByID(Long id){
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO = CategoryMapper.INSTANCE.toDTO(categoryRepository.findById(id).get());
+        return categoryDTO;
+         }
 }

@@ -54,13 +54,13 @@ public class WaiterServiceTest {
     public void setUp(){
         media.setId(1L);
         media.setName("abc.PNG");
-        waiterDTO = new WaiterDTOBuilder().id(1L).waiterName("Furkan").waiterLastName("Ekim").phoneNumber(53164339L).email("furkane@gma").media(media).build();
+        //waiterDTO = new WaiterDTOBuilder().id(1L).waiterName("Furkan").waiterLastName("Ekim").phoneNumber(53164339L).email("furkane@gma").media(media).build();
         mediaDTO = new MediaDTOBuilder().id(1L).name("abc.PNG").build();
     }
 
     @Test
     public void shouldAddWaiter(){
-        when(mediaRepository.findById(any())).thenReturn(Optional.of(waiterDTO.getMedia()));
+        //when(mediaRepository.findById(any())).thenReturn(Optional.of(waiterDTO.getMedia()));
         when(waiterRepository.save(any())).thenReturn(DTOConverter.convertDTOWaiter(waiterDTO));
         Boolean res = waiterService.addWaiter(waiterDTO);
         assertNotNull(res);
@@ -71,7 +71,7 @@ public class WaiterServiceTest {
 
     @Test
     public void shouldUpdateWaiter(){
-        when(mediaRepository.findById(any())).thenReturn(Optional.of(waiterDTO.getMedia()));
+       // when(mediaRepository.findById(any())).thenReturn(Optional.of(waiterDTO.getMedia()));
         when(waiterRepository.saveAndFlush(any())).thenReturn(DTOConverter.convertDTOWaiter(waiterDTO));
         WaiterDTO res = waiterService.updateWaiter(waiterDTO);
         assertNotNull(res);

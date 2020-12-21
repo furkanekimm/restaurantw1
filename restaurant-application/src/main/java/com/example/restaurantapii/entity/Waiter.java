@@ -1,7 +1,9 @@
 package com.example.restaurantapii.entity;
 
-import javax.persistence.*;
+import lombok.Data;
 
+import javax.persistence.*;
+@Data
 @Entity(name = "WAITERS")
 public class Waiter {
     @Id
@@ -16,51 +18,4 @@ public class Waiter {
     @JoinColumn(name = "media_id", referencedColumnName = "id")
     private Media media;
 
-    public Media getMedia() {
-        return media;
-    }
-
-    public void setMedia(Media media) {
-        this.media = media;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getWaiterName() {
-        return waiterName;
-    }
-
-    public void setWaiterName(String waiterName) {
-        this.waiterName = waiterName;
-    }
-
-    public String getWaiterLastName() {
-        return waiterLastName;
-    }
-
-    public void setWaiterLastName(String waiterLastName) {
-        this.waiterLastName = waiterLastName;
-    }
-
-    public Long getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(Long phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

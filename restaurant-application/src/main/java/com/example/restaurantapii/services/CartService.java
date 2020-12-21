@@ -1,5 +1,6 @@
 package com.example.restaurantapii.services;
 
+import com.example.restaurantapii.Mapper.CartMapper;
 import com.example.restaurantapii.converters.DTOConverter;
 import com.example.restaurantapii.converters.EntityConvertor;
 import com.example.restaurantapii.dto.CartDTO;
@@ -19,7 +20,7 @@ public class CartService {
 
     public List<CartDTO> addCart(List<CartDTO> cartDto){
         List<Cart> cartList = new ArrayList<>();
-        cartDto.forEach(cartDTO ->cartList.add(DTOConverter.convertToCartDTO(cartDTO)));
+        cartDto.forEach(cartDTO ->cartList.add(CartMapper.INSTANCE.toEntity(cartDTO)));
         cartRepository.saveAll(cartList);
         return cartDto;
     }
@@ -28,7 +29,7 @@ public class CartService {
     public List<CartDTO> allCarts(){
         List<CartDTO> cartDTOList = new ArrayList<>();
         List<Cart> carts = cartRepository.findAll();
-        carts.forEach(cart -> cartDTOList.add(EntityConvertor.convertToCart(cart)));
+        carts.forEach(cart -> cartDTOList.add(CartMapper.INSTANCE.toDTO(cart)));
         return cartDTOList;
     }
 

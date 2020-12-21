@@ -15,8 +15,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-
     @PostMapping("/control/add")
     public UserDTO addUser(@RequestBody UserDTO userDTO){
         return userService.addUser(userDTO);
@@ -42,6 +40,10 @@ public class UserController {
         return userService.getAllRoles();
     }
 
+    @GetMapping("/control/{id}")
+    public UserDTO getUserByID(@PathVariable Long id){
+        return userService.getUserByID(id);
+    }
 
     @GetMapping("/login")
     public String login(){

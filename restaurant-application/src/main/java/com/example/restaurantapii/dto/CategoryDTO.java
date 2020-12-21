@@ -1,9 +1,10 @@
 package com.example.restaurantapii.dto;
 
-import com.example.restaurantapii.entity.Media;
+import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
-
+@Data
 public class CategoryDTO {
     private Long id;
     private String name;
@@ -12,63 +13,9 @@ public class CategoryDTO {
     private Long mediaId;
     private byte[] fileContent;
 
+    private Set<ProductDTO>  products = new HashSet<>();
+
+    private MediaDTO media;
 
 
-    public Long getMediaId() {
-        return mediaId;
-    }
-
-    public void setMediaId(Long mediaId) {
-        this.mediaId = mediaId;
-    }
-
-    public byte[] getFileContent() {
-        return fileContent;
-    }
-
-    public void setFileContent(byte[] fileContent) {
-        this.fileContent = fileContent;
-    }
-
-    private Set<CategoryDTO> categoryDTOSet;
-
-    public Set<CategoryDTO> getCategoryDTOSet() {
-        return categoryDTOSet;
-    }
-
-    public void setCategoryDTOSet(Set<CategoryDTO> categoryDTOSet) {
-        this.categoryDTOSet = categoryDTOSet;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getUrlToImage() {
-        return urlToImage;
-    }
-
-    public void setUrlToImage(String urlToImage) {
-        this.urlToImage = urlToImage;
-    }
 }

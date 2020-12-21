@@ -4,6 +4,7 @@ import com.example.restaurantapii.dto.*;
 import com.example.restaurantapii.entity.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class EntityConvertor {
@@ -18,7 +19,8 @@ public class EntityConvertor {
         waiterDTO.setWaiterLastName(waiter.getWaiterLastName());
         waiterDTO.setPhoneNumber(waiter.getPhoneNumber());
         waiterDTO.setEmail(waiter.getEmail());
-        waiterDTO.setMedia(waiter.getMedia());
+        //Değişti
+        waiterDTO.setMediadto(new MediaDTO());
         return waiterDTO;
     }
 
@@ -30,7 +32,8 @@ public class EntityConvertor {
         productDTO.setPrice(product.getPrice());
         productDTO.setUrlToImage(product.getUrlToImage());
         //productDTO.setCategoryDTOSet(product.getCategory());
-        productDTO.setCategoryName(product.getCategory());
+        //değişti
+        productDTO.setCategoryName(new HashSet<CategoryDTO>());
         productDTO.setMedia(product.getMedia());
         //productDTO.setCategoryId(product.getCategory().getId());*/
         return productDTO;
