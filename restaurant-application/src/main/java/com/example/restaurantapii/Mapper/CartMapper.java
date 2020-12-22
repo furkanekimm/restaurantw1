@@ -5,12 +5,17 @@ import com.example.restaurantapii.entity.Cart;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+import java.util.List;
+
+@Mapper(componentModel = "spring")
 public interface CartMapper {
 
-    CartMapper INSTANCE = Mappers.getMapper(CartMapper.class);
 
     CartDTO toDTO(Cart cart);
 
     Cart toEntity(CartDTO cartDTO);
+
+    List<Cart> toEntityList(List<CartDTO> cartDTOS);
+
+    List<CartDTO> toDTOList(List<Cart> carts);
 }

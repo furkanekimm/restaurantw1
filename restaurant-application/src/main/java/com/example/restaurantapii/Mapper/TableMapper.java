@@ -5,13 +5,17 @@ import com.example.restaurantapii.entity.PlaceRest;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
-public interface TableMapper {
+import java.util.List;
 
-    TableMapper INSTANCE = Mappers.getMapper(TableMapper.class);
+@Mapper(componentModel = "spring")
+public interface TableMapper {
 
     PlaceRestDTO toDTO(PlaceRest placeRest);
 
     PlaceRest toEntity(PlaceRestDTO dto);
+
+    List<PlaceRestDTO> toDTOList(List<PlaceRest> placeRests);
+
+    List<PlaceRest> toEntityList(List<PlaceRestDTO> placeRests);
 
 }

@@ -10,7 +10,7 @@
         <insert tableName="category">
             <column name="id" valueNumeric="1"/>
             <column name="name" value="Drink"/>
-            <column name="description" value="Cold"/>
+            <column name="description" value="Cold"/>z
             <column name="url_to_image" value="1"/>
         </insert>
         <insert tableName="category">

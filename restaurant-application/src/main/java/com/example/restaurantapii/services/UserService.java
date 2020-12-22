@@ -1,7 +1,7 @@
 package com.example.restaurantapii.services;
 
-import com.example.restaurantapii.converters.DTOConverter;
-import com.example.restaurantapii.converters.EntityConvertor;
+import com.example.restaurantapii.Mapper.RoleMapper;
+import com.example.restaurantapii.Mapper.UserMapper;
 import com.example.restaurantapii.dto.RoleDTO;
 import com.example.restaurantapii.dto.UserDTO;
 import com.example.restaurantapii.entity.Role;
@@ -25,11 +25,17 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
+
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 
     public UserDTO addUser(UserDTO userDTO){
-        User user = DTOConverter.convertToUserDTO(userDTO);
+        User user = userMapper.toEntity(userDTO);
         List<Role> roles = roleRepository.findAllById(userDTO.getRolesId());
         user.setPassword(encoder.encode(userDTO.getPassword()));
         user.setRoles(roles);
@@ -38,7 +44,7 @@ public class UserService {
     }
 
     public UserDTO updateUser(UserDTO userDTO){
-        User user = DTOConverter.convertToUserDTO(userDTO);
+        User user = userMapper.toEntity(userDTO);
         List<Role> roles = roleRepository.findAllById(userDTO.getRolesId());
         user.setRoles(roles);
         user.setPassword(encoder.encode(userDTO.getPassword()));
@@ -47,13 +53,11 @@ public class UserService {
     }
 
     public List<UserDTO> allUsers(){
-        List<UserDTO> userDTOList = new ArrayList<>();
-        userRepository.findAll().forEach(user -> userDTOList.add(EntityConvertor.convertToUser(user)));
+        List<UserDTO> userDTOList = userMapper.toDTOList(userRepository.findAll());
         return userDTOList;
     }
 
     public String deleteUser(Long id){
-        //userRepository.deleteUserRole(id);
         Optional<User> optionalUser = userRepository.findById(id);
         optionalUser.get().setRoles(null);
         userRepository.deleteById(id);
@@ -61,13 +65,15 @@ public class UserService {
     }
 
     public List<RoleDTO> getAllRoles(){
-        List<RoleDTO> roleDTOList = new ArrayList<>();
-        roleRepository.findAll().forEach(role -> roleDTOList.add(EntityConvertor.convertToRole(role)));
+        List<RoleDTO> roleDTOList = roleMapper.toDTOList(roleRepository.findAll());
         return roleDTOList;
     }
 
     public UserDTO getUserByID(Long id){
-        UserDTO userDTO = EntityConvertor.convertToUser(userRepository.findById(id).get());
+        UserDTO userDTO = userMapper.toDTO(userRepository.findById(id).get());
+        List<Long> longList = new ArrayList<>();
+        userRepository.findById(id).get().getRoles().forEach(role -> longList.add(role.getId()));
+        userDTO.setRolesId(longList);
         return userDTO;
     }
 

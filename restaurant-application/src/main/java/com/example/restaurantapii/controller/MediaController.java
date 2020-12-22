@@ -27,4 +27,9 @@ public class MediaController {
         return mediaService.getWholeFiles();
     }
 
+    @DeleteMapping("/{id}")
+    public Boolean deleteMedia(@PathVariable Long id){
+        return mediaService.deleteMedia(id);
     }
+
+}

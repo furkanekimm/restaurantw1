@@ -3,6 +3,7 @@ package com.example.restaurantapii.dto;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 @Data
 public class UserDTO {
@@ -12,5 +13,5 @@ public class UserDTO {
     private String password;
     private Boolean enabled = true;
     private List<Long> rolesId;
-
+    private List<RoleDTO> roles;
 }

@@ -1,5 +1,6 @@
 package com.example.restaurantapii.services;
 
+import com.example.restaurantapii.Mapper.WaiterMapper;
 import com.example.restaurantapii.converters.DTOConverter;
 import com.example.restaurantapii.converters.EntityConvertor;
 import com.example.restaurantapii.dto.WaiterDTO;
@@ -23,24 +24,27 @@ public class WaiterService {
     @Autowired
     private MediaRepository mediaRepository;
 
+    @Autowired
+    private WaiterMapper waiterMapper;
+
     public Boolean addWaiter(WaiterDTO waiterDTO){
-        Waiter waiter = DTOConverter.convertDTOWaiter(waiterDTO);
-        Media media = mediaRepository.findById(waiterDTO.getMediadto().getId()).get();
+        Waiter waiter = waiterMapper.toEntity(waiterDTO);
+        Media media = mediaRepository.findById(waiterDTO.getMedia().getId()).get();
         waiter.setMedia(media);
         waiterRepository.save(waiter);
         return true;
     }
 
     public WaiterDTO updateWaiter(WaiterDTO waiterDTO){
-        Waiter waiter = DTOConverter.convertDTOWaiter(waiterDTO);
-        Media media = mediaRepository.findById(waiterDTO.getMediadto().getId()).get();
+        Waiter waiter = waiterMapper.toEntity(waiterDTO);
+        Media media = mediaRepository.findById(waiterDTO.getMedia().getId()).get();
         waiter.setMedia(media);
-        waiterRepository.saveAndFlush(DTOConverter.convertDTOWaiter(waiterDTO));
+        waiterRepository.saveAndFlush(waiterMapper.toEntity(waiterDTO));
         return waiterDTO;
     }
 
     public WaiterDTO getWaiterByID(Long id){
-        return EntityConvertor.convertToWaiter(waiterRepository.findById(id).get());
+        return waiterMapper.toDTO(waiterRepository.findById(id).get());
     }
 
     public Boolean deleteWaiter(Long id){
@@ -52,8 +56,7 @@ public class WaiterService {
     }
 
     public List<WaiterDTO> listAllWaiters(){
-        List<WaiterDTO> waiterDTOList = new ArrayList<>();
-        waiterRepository.findAll().forEach(waiter -> waiterDTOList.add(EntityConvertor.convertToWaiter(waiter)));
+        List<WaiterDTO> waiterDTOList = waiterMapper.toDTOList(waiterRepository.findAll());
         return  waiterDTOList;
     }
 

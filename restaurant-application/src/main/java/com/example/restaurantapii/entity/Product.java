@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -21,7 +22,7 @@ public class Product implements Serializable {
 
     @JsonManagedReference
     @ManyToMany(mappedBy = "products")
-    private Set<Category> category;
+    private List<Category> category;
 
     @ManyToOne
     @JoinColumn(name = "media_id")

@@ -20,7 +20,7 @@ public class EntityConvertor {
         waiterDTO.setPhoneNumber(waiter.getPhoneNumber());
         waiterDTO.setEmail(waiter.getEmail());
         //Değişti
-        waiterDTO.setMediadto(new MediaDTO());
+        waiterDTO.setMedia(new MediaDTO());
         return waiterDTO;
     }
 
@@ -33,8 +33,8 @@ public class EntityConvertor {
         productDTO.setUrlToImage(product.getUrlToImage());
         //productDTO.setCategoryDTOSet(product.getCategory());
         //değişti
-        productDTO.setCategoryName(new HashSet<CategoryDTO>());
-        productDTO.setMedia(product.getMedia());
+        //productDTO.setCategoryName(new HashSet<CategoryDTO>());
+        //productDTO.setMedia(product.getMedia());
         //productDTO.setCategoryId(product.getCategory().getId());*/
         return productDTO;
     }

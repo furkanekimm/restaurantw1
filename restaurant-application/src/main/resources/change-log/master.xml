@@ -3,7 +3,10 @@
 <databaseChangeLog
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.liquibase.org/xml/ns/dbchangelog">
-    <include relativeToChangelogFile="true" file="/changes/create-users-table.xml"/>
+    <changeSet author="levent.yildiz" id="07-10-2020_18:38" runOnChange="true">
+        <sqlFile path="/changes/datanew.sql" stripComments="true"/>
+    </changeSet>
+  <!--  <include relativeToChangelogFile="true" file="/changes/create-users-table.xml"/>
     <include relativeToChangelogFile="true" file="/changes/create-role-table.xml"/>
     <include relativeToChangelogFile="true" file="/changes/create-user_roles-table.xml"/>
     <include relativeToChangelogFile="true" file="/changes/create-media-table.xml"/>
@@ -18,7 +21,7 @@
     <include relativeToChangelogFile="true" file="/changes/insert-category-table.xml"/>
     <include relativeToChangelogFile="true" file="/changes/insert-placerest-table.xml"/>
     <include relativeToChangelogFile="true" file="/changes/insert-product-table.xml"/>
-    <include relativeToChangelogFile="true" file="/changes/insert-user_roles-table.xml"/>
+    <include relativeToChangelogFile="true" file="/changes/insert-user_roles-table.xml"/>-->
 
 
 </databaseChangeLog>

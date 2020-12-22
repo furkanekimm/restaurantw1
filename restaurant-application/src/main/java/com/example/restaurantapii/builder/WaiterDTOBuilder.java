@@ -20,7 +20,7 @@ public class WaiterDTOBuilder extends Builder {
         waiterDTO.setWaiterLastName(this.waiterLastName);
         waiterDTO.setPhoneNumber(this.phoneNumber);
         waiterDTO.setEmail(this.email);
-        waiterDTO.setMediadto(this.mediadto);
+        waiterDTO.setMedia(this.mediadto);
         return waiterDTO;
     }
     public WaiterDTOBuilder media(MediaDTO media){

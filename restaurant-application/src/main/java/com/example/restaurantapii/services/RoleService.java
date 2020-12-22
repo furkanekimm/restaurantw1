@@ -1,5 +1,6 @@
 package com.example.restaurantapii.services;
 
+import com.example.restaurantapii.Mapper.RoleMapper;
 import com.example.restaurantapii.converters.DTOConverter;
 import com.example.restaurantapii.converters.EntityConvertor;
 import com.example.restaurantapii.dto.RoleDTO;
@@ -15,8 +16,11 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private RoleMapper roleMapper;
+
     public RoleDTO addRole(RoleDTO roleDTO){
-        roleRepository.save(DTOConverter.convertToRoleDTO(roleDTO));
+        roleRepository.save(roleMapper.toEntity(roleDTO));
         return roleDTO;
     }
 
@@ -26,18 +30,17 @@ public class RoleService {
     }
 
     public RoleDTO updateRole(RoleDTO roleDTO){
-        roleRepository.saveAndFlush(DTOConverter.convertToRoleDTO(roleDTO));
+        roleRepository.saveAndFlush(roleMapper.toEntity(roleDTO));
         return roleDTO;
     }
 
     public List<RoleDTO> getAllRoles(){
-        List<RoleDTO> roleDTOList = new ArrayList<>();
-        roleRepository.findAll().forEach(role -> roleDTOList.add(EntityConvertor.convertToRole(role)));
+        List<RoleDTO> roleDTOList = roleMapper.toDTOList(roleRepository.findAll());
         return  roleDTOList;
     }
 
     public RoleDTO getRoleById(Long id){
-        return EntityConvertor.convertToRole(roleRepository.findById(id).get());
+        return roleMapper.toDTO(roleRepository.findById(id).get());
     }
 
 }

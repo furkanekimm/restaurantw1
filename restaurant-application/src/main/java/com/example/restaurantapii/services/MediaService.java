@@ -1,8 +1,10 @@
 package com.example.restaurantapii.services;
 
+import com.example.restaurantapii.Mapper.MediaMapper;
 import com.example.restaurantapii.converters.DTOConverter;
 import com.example.restaurantapii.converters.EntityConvertor;
 import com.example.restaurantapii.dto.MediaDTO;
+import com.example.restaurantapii.entity.Media;
 import com.example.restaurantapii.repository.MediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,11 +15,15 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MediaService {
     @Autowired
     private MediaRepository mediaRepository;
+
+    @Autowired
+    private MediaMapper mediaMapper;
 
     private static final String JPG_EXTENSION = ".jpg";
     private static final String PNG_EXTENSION = ".png";
@@ -30,8 +36,7 @@ public class MediaService {
     private String uploadDir;
 
     public List<MediaDTO> getWholeFiles(){
-        List<MediaDTO> mediaDTOList = new ArrayList<>();
-        mediaRepository.findAll().forEach(media -> mediaDTOList.add(EntityConvertor.convertToMediaDTO(media)));
+        List<MediaDTO> mediaDTOList = mediaMapper.toDTOList(mediaRepository.findAll());
         return mediaDTOList;
     }
 
@@ -47,8 +52,18 @@ public class MediaService {
         MediaDTO mediaDTO = new MediaDTO();
         mediaDTO.setFileContent(bytes);
         mediaDTO.setName(imageName);
-        mediaRepository.save(DTOConverter.convertToMediaDTO(mediaDTO));
+        mediaRepository.save(mediaMapper.toEntity(mediaDTO));
         return "Media uploaded...";
+    }
+
+    public Boolean deleteMedia(Long id){
+        Optional<Media> optionalMedia = mediaRepository.findById(id);
+        if(optionalMedia.isPresent()){
+            mediaRepository.deleteById(id);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private String generateFullFilePath(MultipartFile file){

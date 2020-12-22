@@ -1,6 +1,7 @@
 package com.example.restaurantapii.services;
 
 import com.example.restaurantapii.Mapper.CategoryMapper;
+import com.example.restaurantapii.Mapper.ProductMapper;
 import com.example.restaurantapii.converters.DTOConverter;
 import com.example.restaurantapii.converters.EntityConvertor;
 import com.example.restaurantapii.dto.CategoryDTO;
@@ -23,14 +24,21 @@ public class CategoryService {
     @Autowired
     private MediaRepository mediaRepository;
 
+    @Autowired
+    private CategoryMapper categoryMapper;
+
+    @Autowired
+    private ProductMapper productMapper;
+
     public List<ProductDTO> findProductsById(Long id){
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         if(!optionalCategory.isPresent()){
             return Collections.emptyList();
         }
-        Set<Product> products = optionalCategory.get().getProducts();
-        List<ProductDTO> productDTOSet = new ArrayList<>() ;
-        products.forEach(product -> productDTOSet.add(EntityConvertor.convertToProduct(product)));
+        List<Product> products = optionalCategory.get().getProducts();
+        //Set<Product> products = optionalCategory.get().getProducts();
+        List<ProductDTO> productDTOSet = productMapper.toDTOList(products);
+       // categoryMapper.toDTOList(categoryRepository.findAll());
         return productDTOSet;
     }
 
@@ -43,7 +51,7 @@ public class CategoryService {
     }
 
     public CategoryDTO addCategory(CategoryDTO categoryDTO){
-        Category category = CategoryMapper.INSTANCE.toEntity(categoryDTO);
+        Category category = categoryMapper.toEntity(categoryDTO);
         Media media =mediaRepository.findById(categoryDTO.getMediaId()).get();
         category.setMedia(media);
         categoryRepository.save(category);
@@ -51,15 +59,13 @@ public class CategoryService {
     }
 
     public List<CategoryDTO> allCategories(){
-        List<CategoryDTO> categoryDTOList = new ArrayList<>();
-        List<Category> categoryList = categoryRepository.findAll();
-        categoryList.forEach(category -> categoryDTOList.add(CategoryMapper.INSTANCE.toDTO(category)));
+        List<CategoryDTO> categoryDTOList = categoryMapper.toDTOList(categoryRepository.findAll());
         return categoryDTOList;
     }
 
 
     public boolean updateCategory(CategoryDTO categoryDTO){
-        Category category1 = CategoryMapper.INSTANCE.toEntity(categoryDTO);
+        Category category1 = categoryMapper.toEntity(categoryDTO);
         Media media = mediaRepository.findById(categoryDTO.getMediaId()).get();
         category1.setMedia(media);
         Category category = categoryRepository.saveAndFlush(category1);
@@ -71,7 +77,7 @@ public class CategoryService {
 
         public CategoryDTO getCategoryByID(Long id){
         CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO = CategoryMapper.INSTANCE.toDTO(categoryRepository.findById(id).get());
+        categoryDTO = categoryMapper.toDTO(categoryRepository.findById(id).get());
         return categoryDTO;
          }
 }

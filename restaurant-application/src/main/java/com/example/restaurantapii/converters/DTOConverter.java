@@ -22,8 +22,8 @@ public class DTOConverter {
         product.setProductName(productDTO.getProductName());
         product.setPrice(productDTO.getPrice());
         product.setUrlToImage(productDTO.getUrlToImage());
-        product.setCategory(new HashSet<>());
-        product.setMedia(productDTO.getMedia());
+        //product.setCategory(new HashSet<>());
+        //product.setMedia(productDTO.getMedia());
         //product.setCategory(productDTO.getCategoryDTOSet());
        /* product.setCategory(new Set<Category>);
         product.getCategory().setName(productDTO.getCategoryName());

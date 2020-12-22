@@ -11,6 +11,6 @@ public class WaiterDTO {
     private String waiterLastName;
     private Long phoneNumber;
     private String email;
-    private MediaDTO mediadto;
+    private MediaDTO media;
 
 }

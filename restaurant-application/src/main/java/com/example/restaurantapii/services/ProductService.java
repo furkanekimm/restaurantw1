@@ -1,8 +1,7 @@
 package com.example.restaurantapii.services;
 
-import com.example.restaurantapii.converters.DTOConverter;
-import com.example.restaurantapii.converters.EntityConvertor;
-import com.example.restaurantapii.dto.CategoryDTO;
+import com.example.restaurantapii.Mapper.MediaMapper;
+import com.example.restaurantapii.Mapper.ProductMapper;
 import com.example.restaurantapii.dto.ProductDTO;
 import com.example.restaurantapii.entity.Category;
 import com.example.restaurantapii.entity.Product;
@@ -22,9 +21,15 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private ProductMapper productMapper;
+
+    @Autowired
+    private MediaMapper mediaMapper;
+
 
     public ProductDTO addProduct(ProductDTO productDTO) {
-        Product product =DTOConverter.convertDTOProduct(productDTO);
+        Product product =productMapper.toEntity(productDTO);
         for(int i=0; i<productDTO.getCategoryId().size();i++){
             Optional<Category> category = categoryRepository.findById(productDTO.getCategoryId().get(i));
             category.get().getProducts().add(product);
@@ -34,16 +39,14 @@ public class ProductService {
     }
 
     public List<ProductDTO> listAllProduct() {
-        List<ProductDTO> productDTOList = new ArrayList<>();
-        List<Product> productList = productRepository.findAll();
-        productList.forEach(product -> productDTOList.add(EntityConvertor.convertToProduct(product)));
+        List<ProductDTO> productDTOList = productMapper.toDTOList(productRepository.findAll());
         return productDTOList;
     }
 
     public ProductDTO getProductById(Long id){
         Optional<Product> optionalProduct = productRepository.findById(id);
         Product product = optionalProduct.get();
-        ProductDTO productDTO = EntityConvertor.convertToProduct(product);
+        ProductDTO productDTO = productMapper.toDTO(product);
         List<Long> categories= new ArrayList<>();
         optionalProduct.get().getCategory().forEach(category -> categories.add(category.getId()));
         productDTO.setCategoryId(categories);
@@ -63,13 +66,13 @@ public class ProductService {
     public ProductDTO updateProduct(ProductDTO productDTO) {
         Optional<Product> optionalProduct = productRepository.findById(productDTO.getId());
         optionalProduct.get().getCategory().forEach(category -> category.getProducts().remove(optionalProduct.get()));
-        Product product =DTOConverter.convertDTOProduct(productDTO);
-        Set<Category> categoryList = new HashSet<>();
+        Product product =productMapper.toEntity(productDTO);
+        List<Category> categoryList = new ArrayList<>();
         for(int i=0; i<productDTO.getCategoryId().size(); i++){
             categoryList.add(categoryRepository.findById(productDTO.getCategoryId().get(i)).get());
         }
         product.setCategory(categoryList);
-        product.setMedia(productDTO.getMedia());
+        product.setMedia(mediaMapper.toEntity(productDTO.getMedia()));
         categoryList.forEach(category -> categoryRepository.saveAndFlush(category));
         for(int i=0; i<productDTO.getCategoryId().size();i++){
             Optional<Category> category = categoryRepository.findById(productDTO.getCategoryId().get(i));
