@@ -50,4 +50,8 @@ public class Category implements Serializable {
                 ", products=" + products +
                 '}';
     }
+
+    public void removeProduct(Product product){
+        this.getProducts().remove(product);
+    }
 }

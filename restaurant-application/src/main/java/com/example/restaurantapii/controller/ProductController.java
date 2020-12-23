@@ -26,56 +26,48 @@ public class ProductController {
     private ProductService productService;
 
 
-    @PostMapping("/add")
+    @PostMapping()
     public ProductDTO addProduct(@RequestBody ProductDTO productDTO){
         return productService.addProduct(productDTO);
     }
-    @GetMapping("/category/{id}")
+    @GetMapping("/{id}")
     public List<ProductDTO> findProductsById(@PathVariable Long id){
         return categoryService.findProductsById(id);
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public List<ProductDTO> listAllProduct() {
         return productService.listAllProduct();
     }
 
-
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ProductDTO getProductById(@PathVariable Long id) {
        return productService.getProductById(id);
     }
 
-
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public Boolean deleteProduct(@PathVariable Long id) {
         return productService.deleteProduct(id);
     }
 
-    @PutMapping("/update/")
+    @PutMapping()
     public ProductDTO updateProduct(@RequestBody ProductDTO productDTO) {
         return productService.updateProduct(productDTO);
     }
 
-    @GetMapping("/getPage")
+    @GetMapping("/get-page")
     public Page<ProductDTO> getProductPage(@RequestParam int page){
         int size = 5;
         Pageable pageable = PageRequest.of(page,size);
         return productService.getProductLikePage(pageable);
     }
 
-    @GetMapping("/getPageSlice")
+    @GetMapping("/get-page-slice")
     public Slice<ProductDTO> getProductWithSlice(@RequestParam int page,@RequestParam Long id){
         int size = 3;
         Pageable pageable = PageRequest.of(page,size);
         return productService.getProductWithSlice(pageable,id);
     }
-
-  /*  @GetMapping("/getdata")
-    public List<Product> getProductByCategory(Long id){
-        return productService.getProductByCategory(id);
-    }*/
-
 
 
 }

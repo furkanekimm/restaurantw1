@@ -15,12 +15,13 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    @PostMapping("/add")
+    //İsimlendirmeler bu şekilde olmalı
+    @PostMapping()
     public List<CartDTO> addCart(@RequestBody List<CartDTO> cart) {
        return cartService.addCart(cart);
     }
 
-    @GetMapping("/list")
+    @GetMapping()
     public List<CartDTO> allCarts(){
         return cartService.allCarts();
     }

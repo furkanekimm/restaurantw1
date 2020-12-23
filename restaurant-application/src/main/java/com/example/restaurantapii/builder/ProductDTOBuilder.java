@@ -22,7 +22,7 @@ public class ProductDTOBuilder extends Builder {
         productDTO.setDescription(this.description);
         productDTO.setPrice(this.price);
         productDTO.setUrlToImage(this.urlToImage);
-        productDTO.setCategoryId(this.categoryId);
+        //productDTO.set(this.categoryId);
         //productDTO.setCategoryName(this.categoryName);
         return productDTO;
     }

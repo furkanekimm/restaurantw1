@@ -30,7 +30,7 @@ public class EntityConvertor {
         productDTO.setDescription(product.getDescription());
         productDTO.setProductName(product.getProductName());
         productDTO.setPrice(product.getPrice());
-        productDTO.setUrlToImage(product.getUrlToImage());
+       // productDTO.setUrlToImage(product.getUrlToImage());
         //productDTO.setCategoryDTOSet(product.getCategory());
         //değişti
         //productDTO.setCategoryName(new HashSet<CategoryDTO>());

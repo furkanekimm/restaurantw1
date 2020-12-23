@@ -12,7 +12,7 @@ public class ProductDTO {
     private Long price;
     private String urlToImage;
     private List<CategoryDTO> category;
-    private List<Long> categoryId;
+    private List<Long> categoryIds;
     private MediaDTO media;
 
 }

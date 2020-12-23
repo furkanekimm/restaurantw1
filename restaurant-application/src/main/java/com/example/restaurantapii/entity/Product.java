@@ -1,17 +1,17 @@
 package com.example.restaurantapii.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @SQLDelete(sql =
         "UPDATE product " +
@@ -25,11 +25,11 @@ public class Product implements Serializable {
     private String productName;
     private String description;
     private Long price;
-    private String urlToImage;
 
-    @JsonManagedReference
+
+
     @ManyToMany(mappedBy = "products")
-    private List<Category> category;
+    private List<Category> categories;
 
     @ManyToOne
     @JoinColumn(name = "media_id")
