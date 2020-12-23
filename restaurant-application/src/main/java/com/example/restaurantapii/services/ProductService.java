@@ -8,6 +8,11 @@ import com.example.restaurantapii.entity.Product;
 import com.example.restaurantapii.repository.CategoryRepository;
 import com.example.restaurantapii.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -82,5 +87,24 @@ public class ProductService {
         return productDTO;
     }
 
+    public Page<ProductDTO> getProductLikePage(Pageable pageable){
+        Page<Product> productPages = productRepository.findAll(pageable);
+        List<ProductDTO> dtoList = productMapper.toDTOList(productPages.getContent());
+        Page<ProductDTO> pages = new PageImpl(dtoList,pageable,productPages.getTotalElements());
+        return pages;
+   }
+
+   public Slice<ProductDTO> getProductWithSlice(Pageable pageable,Long id){
+        Category category = categoryRepository.findById(id).get();
+        Slice<Product> productPage = productRepository.findProductsByCategory(category,pageable);
+        List<ProductDTO> dtoList = productMapper.toDTOList(productPage.getContent());
+        Slice<ProductDTO> dtoSlice = new PageImpl(dtoList,pageable,productPage.getSize());
+        return dtoSlice;
+   }
+
+/*   public List<Product> getProductByCategory(Long id){
+        Category category = categoryRepository.findById(id).get();
+        return productRepository.findProductsByCategory(category);
+   }*/
 
 }

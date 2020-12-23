@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b912f877-8dbc-4460-aff5-052cfec9d971" name="Default Changelist" comment="" />
+    <list default="true" id="b912f877-8dbc-4460-aff5-052cfec9d971" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/config/SwaggerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/restaurant-application/src/main/resources/change-log/changes/alter-file.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/restaurant-application/src/main/resources/change-log/changes/insert.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/out/artifacts/restaurant_apii_jar2/restaurant-apii.jar" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/out/artifacts/restaurant_apii_jar2/restaurant-apii.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/Cart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/Media.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/Media.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/PlaceRest.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/PlaceRest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/Waiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/entity/Waiter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/repository/CategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/repository/CategoryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/repository/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/services/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/java/com/example/restaurantapii/services/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/resources/change-log/changes/datanew.sql" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/resources/change-log/changes/datanew.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/resources/change-log/changes/insert-roles-table.xml" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/resources/change-log/changes/insert-roles-table.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-application/src/main/resources/change-log/master.xml" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-application/src/main/resources/change-log/master.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,19 +54,6 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/restaurant-application" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -51,6 +63,7 @@
       <option name="presentableId" value="Default" />
       <updated>1607869608423</updated>
       <workItem from="1607869609625" duration="55000" />
+      <workItem from="1608622255612" duration="7055000" />
     </task>
     <servers />
   </component>

@@ -1,6 +1,8 @@
 package com.example.restaurantapii.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,6 +11,11 @@ import java.util.List;
 import java.util.Set;
 @Data
 @Entity(name="USERS")
+@SQLDelete(sql =
+        "UPDATE users " +
+                "SET deleted = true " +
+                "WHERE id = ?")
+@Where(clause = "deleted = false")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

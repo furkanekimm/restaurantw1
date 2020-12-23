@@ -1,10 +1,17 @@
 package com.example.restaurantapii.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 @Data
 @Entity(name = "WAITERS")
+@SQLDelete(sql =
+        "UPDATE waiters " +
+                "SET deleted = true " +
+                "WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Waiter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

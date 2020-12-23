@@ -1,17 +1,17 @@
 
-C
-java:S1128".Remove this unused import 'java.util.HashSet'.(Ê‚êX
-j
-java:S1128"TRemove this unused import 'com.example.restaurantapii.repository.ProductRepository'.(¶­Šƒ
-\
-java:S1128"FRemove this unused import 'com.example.restaurantapii.entity.Product'.(Òäû¹
-p
-java:S1128"URemove this unused import 'com.example.restaurantapii.repository.CategoryRepository'.(âşàçıÿÿÿÿ
-b
-java:S1128"GRemove this unused import 'com.example.restaurantapii.entity.Category'.(ñ¦òıÿÿÿÿ
 n
 java:S1128"SRemove this unused import 'org.springframework.beans.factory.annotation.Autowired'.(¡¸Îùÿÿÿÿ
-J
-java:S1128"/Remove this unused import 'java.util.Optional'.(¨˜ëİüÿÿÿÿ
+\
+java:S1128"FRemove this unused import 'com.example.restaurantapii.entity.Product'.(Òäû¹
 E
 java:S1128"*Remove this unused import 'java.util.Set'.(ö²„¤şÿÿÿÿ
+j
+java:S1128"TRemove this unused import 'com.example.restaurantapii.repository.ProductRepository'.(¶­Šƒ
+p
+java:S1128"URemove this unused import 'com.example.restaurantapii.repository.CategoryRepository'.(âşàçıÿÿÿÿ
+J
+java:S1128"/Remove this unused import 'java.util.Optional'.(¨˜ëİüÿÿÿÿ
+b
+java:S1128"GRemove this unused import 'com.example.restaurantapii.entity.Category'.(ñ¦òıÿÿÿÿ
+C
+java:S1128".Remove this unused import 'java.util.HashSet'.(Ê‚êX

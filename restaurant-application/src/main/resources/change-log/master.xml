@@ -3,26 +3,28 @@
 <databaseChangeLog
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.liquibase.org/xml/ns/dbchangelog">
+    <include relativeToChangelogFile="true" file="/changes/create-media-table.xml"/>
+    <include relativeToChangelogFile="true" file="changes/insert-roles-table.xml"/>
     <changeSet author="levent.yildiz" id="07-10-2020_18:38" runOnChange="true">
-        <sqlFile path="/changes/datanew.sql" stripComments="true"/>
+        <sqlFile path="/change-log/changes/datanew.sql" stripComments="true"/>
+        <sqlFile path="/change-log/changes/insert.sql" stripComments="true"/>
+        <sqlFile path="/change-log/changes/alter-file.sql" stripComments="true"/>
     </changeSet>
-  <!--  <include relativeToChangelogFile="true" file="/changes/create-users-table.xml"/>
+
+    <!--<include relativeToChangelogFile="true" file="/changes/create-users-table.xml"/>
     <include relativeToChangelogFile="true" file="/changes/create-role-table.xml"/>
     <include relativeToChangelogFile="true" file="/changes/create-user_roles-table.xml"/>
-    <include relativeToChangelogFile="true" file="/changes/create-media-table.xml"/>
+    &lt;!&ndash;<include relativeToChangelogFile="true" file="/changes/create-media-table.xml"/>&ndash;&gt;
     <include relativeToChangelogFile="true" file="/changes/create-cart-table.xml"/>
-    <include relativeToChangelogFile="true" file="/changes/create-category-table.xml"/>
+   &lt;!&ndash; <include relativeToChangelogFile="true" file="/changes/create-category-table.xml"/>&ndash;&gt;
     <include relativeToChangelogFile="true" file="/changes/create-placerest-table.xml"/>
     <include relativeToChangelogFile="true" file="/changes/create-waiter-table.xml"/>
-    <include relativeToChangelogFile="true" file="/changes/create-product-table.xml"/>
-    <include relativeToChangelogFile="true" file="/changes/create-category_product-table.xml"/>
+    &lt;!&ndash;<include relativeToChangelogFile="true" file="/changes/create-product-table.xml"/>&ndash;&gt;
+    &lt;!&ndash;<include relativeToChangelogFile="true" file="/changes/create-category_product-table.xml"/>&ndash;&gt;
     <include relativeToChangelogFile="true" file="/changes/insert-roles-table.xml"/>
     <include relativeToChangelogFile="true" file="/changes/insert-user-table.xml"/>
-    <include relativeToChangelogFile="true" file="/changes/insert-category-table.xml"/>
     <include relativeToChangelogFile="true" file="/changes/insert-placerest-table.xml"/>
-    <include relativeToChangelogFile="true" file="/changes/insert-product-table.xml"/>
     <include relativeToChangelogFile="true" file="/changes/insert-user_roles-table.xml"/>-->
-
 
 </databaseChangeLog>
 

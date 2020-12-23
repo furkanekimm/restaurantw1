@@ -7,13 +7,55 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
       http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
     <changeSet  id="7.12.2020-15.10"  author="furkan.ekim">
-        <insert tableName="ROLES">
-            <column name="id" valueNumeric="1"/>
-            <column name="name" value="ROLE_USER"/>
+        <insert tableName="media">
+            <column name="id" valueNumeric="1"></column>
+            <column name="name" value="bestseller"></column>
+            <column name="file_content" valueBlobFile="/change-log/changes/static/bestseller.jpg"></column>
         </insert>
-        <insert tableName="ROLES">
-            <column name="id" valueNumeric="2"/>
-            <column name="name" value="ROLE_ADMIN"/>
+        <insert tableName="media">
+            <column name="id" valueNumeric="2"></column>
+            <column name="name" value="cart"></column>
+            <column name="file_content" valueBlobFile="/change-log/changes/static/cart.jpg"></column>
+        </insert>
+        <insert tableName="media">
+            <column name="id" valueNumeric="3"></column>
+            <column name="name" value="cart2"></column>
+            <column name="file_content" valueBlobFile="/change-log/changes/static/cart.png"></column>
+        </insert>
+        <insert tableName="media">
+            <column name="id" valueNumeric="4"></column>
+            <column name="name" value="exit"></column>
+            <column name="file_content" valueBlobFile="/change-log/changes/static/exit.jpg"></column>
+        </insert>
+        <insert tableName="media">
+            <column name="id" valueNumeric="5"></column>
+            <column name="name" value="newproduct"></column>
+            <column name="file_content" valueBlobFile="/change-log/changes/static/newproduct.png"></column>
+        </insert>
+        <insert tableName="media">
+            <column name="id" valueNumeric="6"></column>
+            <column name="name" value="other"></column>
+            <column name="file_content" valueBlobFile="/change-log/changes/static/other.png"></column>
+        </insert>
+        <insert tableName="media">
+            <column name="id" valueNumeric="7"></column>
+            <column name="name" value="product"></column>
+            <column name="file_content" valueBlobFile="/change-log/changes/static/product.png"></column>
+        </insert>
+        <insert tableName="media">
+            <column name="id" valueNumeric="8"></column>
+            <column name="name" value="report"></column>
+            <column name="file_content" valueBlobFile="/change-log/changes/static/report.png"></column>
+        </insert>
+        <insert tableName="media">
+            <column name="id" valueNumeric="9"></column>
+            <column name="name" value="table"></column>
+            <column name="file_content" valueBlobFile="/change-log/changes/static/table.jpg"></column>
+        </insert>
+        <insert tableName="media">
+            <column name="id" valueNumeric="10"></column>
+            <column name="name" value="users"></column>
+            <column name="file_content" valueBlobFile="/change-log/changes/static/users.png"></column>
         </insert>
     </changeSet>
 

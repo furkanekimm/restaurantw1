@@ -3,11 +3,18 @@ package com.example.restaurantapii.entity;
 import com.example.restaurantapii.dto.CategoryDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
 @Data
 @Entity
+@SQLDelete(sql =
+        "UPDATE media " +
+                "SET deleted = true " +
+                "WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +29,7 @@ public class Media {
 
     @OneToOne(mappedBy = "media")
     private Waiter waiter;
+
 
 
 }
