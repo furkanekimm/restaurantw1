@@ -2,12 +2,15 @@ package com.example.restaurantapii.dto;
 
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
-@Data
-public class UserDTO {
-    private Long id;
+
+@Getter
+@Setter
+public class UserDTO extends BaseDTO implements Serializable {
     private String email;
     private String username;
     private String password;

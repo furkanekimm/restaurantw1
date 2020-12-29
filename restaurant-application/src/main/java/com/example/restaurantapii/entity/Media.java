@@ -1,34 +1,34 @@
 package com.example.restaurantapii.entity;
 
-import com.example.restaurantapii.dto.CategoryDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
-@Data
+@Getter
+@Setter
 @Entity
 @SQLDelete(sql =
         "UPDATE media " +
                 "SET deleted = true " +
                 "WHERE id = ?")
 @Where(clause = "deleted = false")
-public class Media {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Media extends BaseEntity implements Serializable {
     private String name;
     @Column(length = 1000000)
     private byte[] fileContent;
 
-    @JsonIgnore
+   /* @JsonIgnore
     @OneToMany(mappedBy = "media", cascade = CascadeType.ALL)
     private List<Category> categories;
 
     @OneToOne(mappedBy = "media")
-    private Waiter waiter;
+    private Waiter waiter;*/
 
 
 

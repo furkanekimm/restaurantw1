@@ -1,12 +1,14 @@
 package com.example.restaurantapii.dto;
 
-import com.example.restaurantapii.entity.Media;
-import lombok.Data;
 
-@Data
-public class WaiterDTO {
+import lombok.Getter;
+import lombok.Setter;
 
-    private Long id;
+import java.io.Serializable;
+
+@Getter
+@Setter
+public class WaiterDTO extends BaseDTO implements Serializable {
     private String waiterName;
     private String waiterLastName;
     private Long phoneNumber;

@@ -30,10 +30,6 @@ public class ProductController {
     public ProductDTO addProduct(@RequestBody ProductDTO productDTO){
         return productService.addProduct(productDTO);
     }
-    @GetMapping("/{id}")
-    public List<ProductDTO> findProductsById(@PathVariable Long id){
-        return categoryService.findProductsById(id);
-    }
 
     @GetMapping()
     public List<ProductDTO> listAllProduct() {

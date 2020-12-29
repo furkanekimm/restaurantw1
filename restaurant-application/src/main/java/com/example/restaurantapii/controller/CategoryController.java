@@ -13,7 +13,7 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     CategoryService categoryService;
-    
+
     @PostMapping("/add")
     public CategoryDTO addCategory(@RequestBody CategoryDTO category){
         return categoryService.addCategory(category);

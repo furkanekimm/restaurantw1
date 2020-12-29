@@ -3,20 +3,18 @@ package com.example.restaurantapii.services;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
 
+import com.example.restaurantapii.Mapper.CategoryMapper;
 import com.example.restaurantapii.builder.CategoryDTOBuilder;
 import com.example.restaurantapii.builder.MediaDTOBuilder;
-import com.example.restaurantapii.converters.DTOConverter;
-import com.example.restaurantapii.converters.EntityConvertor;
 import com.example.restaurantapii.dto.CategoryDTO;
 import com.example.restaurantapii.dto.MediaDTO;
-import com.example.restaurantapii.dto.ProductDTO;
 import com.example.restaurantapii.entity.Category;
+import com.example.restaurantapii.entity.Product;
+import com.example.restaurantapii.exceptions.BusinessRuleException;
+import com.example.restaurantapii.exceptions.ContentNotFoundException;
+import com.example.restaurantapii.exceptions.SystemException;
 import com.example.restaurantapii.repository.CategoryRepository;
-import com.example.restaurantapii.repository.MediaRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +23,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,64 +36,92 @@ public class CategoryServicesTest {
     private CategoryRepository categoryRepository;
 
     @Mock
-    private MediaRepository mediaRepository;
+    private CategoryMapper categoryMapper;
 
     private CategoryDTO categoryDTO = new CategoryDTO();
-
     private MediaDTO mediaDTO = new MediaDTO();
-
     private List<Category> categoryList = new ArrayList<>();
-
+    private Category category = new Category();
+    private List<Product> productList = new ArrayList<>();
     @Before
     public void setUp() throws Exception{
-       categoryDTO = new CategoryDTOBuilder().id(1L).urlToImage("null").description("abc").name("new").build();
+       mediaDTO.setId(1L);
+       category.setId(1L);
+       categoryDTO = new CategoryDTOBuilder().id(1L).description("abc").name("new").build();
+       categoryDTO.setMedia(mediaDTO);
        mediaDTO = new MediaDTOBuilder().id(1L).name("abc.PNG").build();
-
+       when(categoryMapper.toEntity(any())).thenReturn(category);
+       when(categoryMapper.toDTO(any())).thenReturn(categoryDTO);
     }
 
     @Test
     public void shouldAddCategory(){
-        when(mediaRepository.findById(any())).thenReturn(Optional.of(DTOConverter.convertToMediaDTO(mediaDTO)));
-        when(categoryRepository.save(any())).thenReturn(DTOConverter.convertDTOCategory(categoryDTO));
+        when(categoryRepository.save(any())).thenReturn(category);
         CategoryDTO res = categoryService.addCategory(categoryDTO);
         assertNotNull(res);
+        assertEquals(res.getName(),categoryDTO.getName());
+    }
+
+    @Test(expected = BusinessRuleException.class)
+    public void shouldAddCategoryWhenMediaIdNull(){
+        categoryDTO.getMedia().setId(null);
+        categoryService.addCategory(categoryDTO);
+    }
+
+    @Test(expected = BusinessRuleException.class)
+    public void shouldAddCategoryWhenNameNull(){
+        categoryDTO.setName(null);
+        categoryService.addCategory(categoryDTO);
     }
 
     @Test
     public void shouldGetProductByID(){
-        when(categoryRepository.findById(any())).thenReturn(Optional.of(DTOConverter.convertDTOCategory(categoryDTO)));
-        List<ProductDTO> res = categoryService.findProductsById(1L);
-        assertNotNull(res);
+        Long id=1L;
+        when(categoryRepository.findById(any())).thenReturn(Optional.of(category));
+        CategoryDTO res = categoryService.getCategoryByID(id);
+        assertEquals(res.getId(),category.getId());
     }
 
-    @Test
-    public void shouldNotGetProductByID(){
+    @Test(expected = ContentNotFoundException.class)
+    public void shouldNotGetProductWhenEmptyRecord(){
+        Long id=1L;
         when(categoryRepository.findById(any())).thenReturn(Optional.empty());
-        List<ProductDTO> res = categoryService.findProductsById(2L);
-        assertEquals(res, Collections.emptyList());
+        categoryService.getCategoryByID(id);
+    }
+
+    @Test(expected = BusinessRuleException.class)
+    public void shouldNotGetProductWhenIDNull(){
+        Long id=null;
+        when(categoryRepository.findById(any())).thenReturn(null);
+        categoryService.getCategoryByID(id);
     }
 
     @Test
     public void shouldDeleteCategory(){
-
         when(categoryRepository.existsById(any())).thenReturn(Boolean.TRUE);
         Long id = 1L;
         Boolean res = categoryService.deleteCategory(id);
         assertEquals(res,true);
     }
 
-    @Test
-    public void shouldNotDeleteCategory(){
-
-        when(categoryRepository.existsById(any())).thenReturn(Boolean.FALSE);
-        Long id = 2L;
+    @Test(expected = BusinessRuleException.class)
+    public void shouldNotDeleteCategoryWhenIdNull(){
+        Long id = null;
         Boolean res = categoryService.deleteCategory(id);
-        assertEquals(res,false);
+        assertEquals(res,true);
+    }
+
+    @Test(expected = SystemException.class)
+    public void shouldDeleteCategoryWhenNotExist(){
+        when(categoryRepository.existsById(any())).thenReturn(Boolean.FALSE);
+        Long id = 1L;
+        categoryService.deleteCategory(id);
     }
 
     @Test
     public void shouldListAllCategories(){
-        categoryList.add(DTOConverter.convertDTOCategory(categoryDTO));
+        List<CategoryDTO> categoryDTOList = new ArrayList<>();
+        when(categoryMapper.toDTOList(any())).thenReturn(categoryDTOList);
         when(categoryRepository.findAll()).thenReturn(categoryList);
         List<CategoryDTO> res = categoryService.allCategories();
         assertNotNull(res);
@@ -104,23 +129,25 @@ public class CategoryServicesTest {
 
     @Test
     public void shouldUpdateCategory(){
-        when(mediaRepository.findById(any())).thenReturn(Optional.of(DTOConverter.convertToMediaDTO(mediaDTO)));
-        when(categoryRepository.saveAndFlush(any())).thenReturn(DTOConverter.convertDTOCategory(categoryDTO));
+        category.setName("abcef");
+        category.setDescription("abcef");
+        category.setProducts(productList);
+        category.getMedia().setId(1L);
+        when(categoryRepository.findById(any())).thenReturn(Optional.of(category));
         Boolean res = categoryService.updateCategory(categoryDTO);
         assertNotNull(res);
-        assertEquals(res,true);
     }
 
-    @Test
-    public void shouldNotUpdateCategory(){
-        categoryDTO.setId(0L);
-        when(mediaRepository.findById(any())).thenReturn(Optional.of(DTOConverter.convertToMediaDTO(mediaDTO)));
-        when(categoryRepository.saveAndFlush(any())).thenReturn(DTOConverter.convertDTOCategory(categoryDTO));
-        Boolean res = categoryService.updateCategory(categoryDTO);
-        assertNotNull(res);
-        assertEquals(res,false);
+    @Test(expected = BusinessRuleException.class)
+    public void shouldNotUpdateCategoryWhenIdNull(){
+        categoryDTO.setId(null);
+        categoryService.updateCategory(categoryDTO);
     }
 
-
+    @Test(expected = ContentNotFoundException.class)
+    public void shouldNotUpdateCategoryWhenNotFound(){
+        when(categoryRepository.findById(any())).thenReturn(Optional.empty());
+        categoryService.updateCategory(categoryDTO);
+    }
 
 }

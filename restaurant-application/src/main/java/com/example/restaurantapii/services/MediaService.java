@@ -1,19 +1,23 @@
 package com.example.restaurantapii.services;
 
 import com.example.restaurantapii.Mapper.MediaMapper;
-import com.example.restaurantapii.converters.DTOConverter;
-import com.example.restaurantapii.converters.EntityConvertor;
 import com.example.restaurantapii.dto.MediaDTO;
 import com.example.restaurantapii.entity.Media;
+import com.example.restaurantapii.exceptions.BusinessRuleException;
+import com.example.restaurantapii.exceptions.Errors;
+import com.example.restaurantapii.exceptions.SystemException;
 import com.example.restaurantapii.repository.MediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +44,7 @@ public class MediaService {
         return mediaDTOList;
     }
 
-
+    @Transactional(propagation = Propagation.REQUIRED)
     public String addMedia(MultipartFile file, String imageName) throws IOException {
         Files.createDirectories(Paths.get(uploadDir));
         String filePath = generateFullFilePath(file);
@@ -56,14 +60,20 @@ public class MediaService {
         return "Media uploaded...";
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public Boolean deleteMedia(Long id){
-        Optional<Media> optionalMedia = mediaRepository.findById(id);
-        if(optionalMedia.isPresent()){
-            mediaRepository.deleteById(id);
-            return true;
-        }else{
-            return false;
+        if(id==null){
+            throw new BusinessRuleException(Errors.ID_NULL);
         }
+
+        Optional<Media> optionalMedia = mediaRepository.findById(id);
+        if(optionalMedia.isEmpty()){
+            throw new SystemException(Errors.ID_NOT_FOUND);
+        }
+
+        mediaRepository.deleteById(id);
+        return true;
+
     }
 
     private String generateFullFilePath(MultipartFile file){

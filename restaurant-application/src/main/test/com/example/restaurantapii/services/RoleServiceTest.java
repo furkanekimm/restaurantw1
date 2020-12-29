@@ -1,16 +1,16 @@
 package com.example.restaurantapii.services;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
 
-import com.example.restaurantapii.builder.RoleDTOBuilder;
-import com.example.restaurantapii.converters.DTOConverter;
+import com.example.restaurantapii.Mapper.RoleMapper;
 import com.example.restaurantapii.dto.RoleDTO;
 import com.example.restaurantapii.entity.Role;
+import com.example.restaurantapii.exceptions.BusinessRuleException;
+import com.example.restaurantapii.exceptions.ContentNotFoundException;
+import com.example.restaurantapii.exceptions.SystemException;
 import com.example.restaurantapii.repository.RoleRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,51 +31,97 @@ public class RoleServiceTest {
     @Mock
     private RoleRepository roleRepository;
 
-    RoleDTO roleDTO = new RoleDTO();
+    @Mock
+    private RoleMapper roleMapper;
+
+    private List<Role> roleList = new ArrayList<>();
+    private List<RoleDTO> roleDTOList = new ArrayList<>();
+    private Role role =new Role();
+    private RoleDTO roleDTO = new RoleDTO();
 
     @Before
     public void setUp(){
-        roleDTO = new RoleDTOBuilder().id(1L).name("EDITOR").build();
+        role.setName("abc");
+        role.setId(1L);
+        roleDTO.setName("bcd");
+        roleDTO.setId(2L);
+        role.setDeleted(false);
+        roleList.add(role);
+        roleDTOList.add(roleDTO);
+        when(roleMapper.toEntity(any())).thenReturn(role);
+        when(roleMapper.toDTO(any())).thenReturn(roleDTO);
+        when(roleMapper.toDTOList(any())).thenReturn(roleDTOList);
     }
 
     @Test
-    public void shouldAddRole(){
-        when(roleRepository.save(any())).thenReturn(DTOConverter.convertToRoleDTO(roleDTO));
+    public void shouldAddTable(){
+        when(roleRepository.save(any())).thenReturn(role);
         RoleDTO res = roleService.addRole(roleDTO);
         assertNotNull(res);
-        assertEquals(res,roleDTO);
+    }
+
+    @Test(expected = BusinessRuleException.class)
+    public void shouldNotAddTableWhenNameNull(){
+        roleDTO.setName(null);
+        when(roleRepository.save(any())).thenReturn(role);
+        roleService.addRole(roleDTO);
     }
 
     @Test
-    public void shouldDeleteRole(){
-        String res = roleService.deleteRole(roleDTO.getId());
-        assertNotNull(res);
+    public void shouldDeleteCustomer(){
+        Long id=1L;
+        when(roleRepository.existsById(any())).thenReturn(Boolean.TRUE);
+        roleService.deleteRole(id);
+        verify(roleRepository).deleteById(id);
+    }
+
+    @Test(expected = SystemException.class)
+    public void shouldNotDeleteWhenIdNotFound(){
+        Long id=1L;
+        when(roleRepository.existsById(any())).thenReturn(Boolean.FALSE);
+        roleService.deleteRole(id);
+    }
+
+    @Test(expected = BusinessRuleException.class)
+    public void shouldNotDeleteWhenIdNull(){
+        Long id=null;
+        when(roleRepository.existsById(any())).thenReturn(Boolean.FALSE);
+        roleService.deleteRole(id);
     }
 
     @Test
-    public void shouldUpdateRole(){
-        when(roleRepository.saveAndFlush(any())).thenReturn(DTOConverter.convertToRoleDTO(roleDTO));
-        RoleDTO res = roleService.updateRole(roleDTO);
-        assertNotNull(res);
-        assertEquals(res,roleDTO);
-    }
-
-    @Test
-    public void shouldGetAllRoles(){
-        List<Role> roleList = new ArrayList<>();
-        roleList.add(DTOConverter.convertToRoleDTO(roleDTO));
+    public void shouldGetAllTables(){
         when(roleRepository.findAll()).thenReturn(roleList);
         List<RoleDTO> res = roleService.getAllRoles();
         assertNotNull(res);
-        assertEquals(res.get(0).getId(),roleList.get(0).getId());
     }
 
     @Test
-    public void shouldGetRoleByID(){
-        when(roleRepository.findById(any())).thenReturn(Optional.of(DTOConverter.convertToRoleDTO(roleDTO)));
+    public void shouldUpdateCustomer(){
+        when(roleRepository.findById(any())).thenReturn(Optional.of(role));
+        when(roleRepository.save(any())).thenReturn(role);
+        RoleDTO res = roleService.updateRole(roleDTO);
+        assertNotNull(res);
+        assertNotEquals(res.getId(),role.getId());
+    }
+
+    @Test(expected = ContentNotFoundException.class)
+    public void shouldNotUpdateWhenContentNotFound(){
+        when(roleRepository.findById(any())).thenReturn(Optional.empty());
+        roleService.updateRole(roleDTO);
+    }
+
+    @Test(expected = BusinessRuleException.class)
+    public void shouldNotUpdateWhenContentIdNULL(){
+        roleDTO.setId(null);
+        roleService.updateRole(roleDTO);
+    }
+
+    @Test
+    public void shouldGetCustomerByID(){
+        when(roleRepository.findById(any())).thenReturn(Optional.of(role));
         RoleDTO res = roleService.getRoleById(roleDTO.getId());
         assertNotNull(res);
-        assertEquals(res.getId(),roleDTO.getId());
     }
 
 }

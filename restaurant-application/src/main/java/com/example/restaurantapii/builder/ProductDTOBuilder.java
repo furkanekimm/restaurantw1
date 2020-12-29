@@ -8,11 +8,7 @@ public class ProductDTOBuilder extends Builder {
     private String productName;
     private String description;
     private Long price;
-    private String urlToImage;
     private List<Long> categoryId;
-    private String categoryName;
-
-
 
     @Override
     public ProductDTO build() {
@@ -21,8 +17,7 @@ public class ProductDTOBuilder extends Builder {
         productDTO.setProductName(this.productName);
         productDTO.setDescription(this.description);
         productDTO.setPrice(this.price);
-        productDTO.setUrlToImage(this.urlToImage);
-        //productDTO.set(this.categoryId);
+        productDTO.setCategoryId(this.categoryId);
         //productDTO.setCategoryName(this.categoryName);
         return productDTO;
     }
@@ -47,18 +42,9 @@ public class ProductDTOBuilder extends Builder {
         return this;
     }
 
-    public ProductDTOBuilder urlToImage(String urlToImage) {
-        this.urlToImage = urlToImage;
-        return this;
-    }
-
     public ProductDTOBuilder categoryId(List<Long> categoryId) {
         this.categoryId = categoryId;
         return this;
     }
 
-    public ProductDTOBuilder categoryName(String categoryName) {
-        this.categoryName = categoryName;
-        return this;
-    }
 }

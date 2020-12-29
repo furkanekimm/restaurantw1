@@ -1,12 +1,13 @@
 package com.example.restaurantapii.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class MediaDTO {
-    private Long id;
+import java.io.Serializable;
+
+@Getter
+@Setter
+public class MediaDTO extends BaseDTO implements Serializable {
     private String name;
     private byte[] fileContent;
-
-
 }

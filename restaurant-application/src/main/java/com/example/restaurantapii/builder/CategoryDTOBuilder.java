@@ -5,7 +5,6 @@ import com.example.restaurantapii.dto.CategoryDTO;
 public class CategoryDTOBuilder extends Builder {
     private String name;
     private String description;
-    private String urlToImage;
 
     @Override
     public CategoryDTO build() {
@@ -13,7 +12,6 @@ public class CategoryDTOBuilder extends Builder {
         categoryDTO.setName(this.name);
         categoryDTO.setId(super.id);
         categoryDTO.setDescription(this.description);
-        categoryDTO.setUrlToImage(this.urlToImage);
         return categoryDTO;
     }
 
@@ -32,8 +30,4 @@ public class CategoryDTOBuilder extends Builder {
         return this;
     }
 
-    public CategoryDTOBuilder urlToImage(String urlToImage){
-        this.urlToImage=urlToImage;
-        return this;
-    }
 }

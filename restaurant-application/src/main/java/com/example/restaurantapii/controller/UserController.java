@@ -35,11 +35,6 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
-    @GetMapping("/control/allroles")
-    public List<RoleDTO> getAllRoles(){
-        return userService.getAllRoles();
-    }
-
     @GetMapping("/control/{id}")
     public UserDTO getUserByID(@PathVariable Long id){
         return userService.getUserByID(id);

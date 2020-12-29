@@ -1,31 +1,28 @@
 package com.example.restaurantapii.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-@Data
+@Getter
+@Setter
 @Entity(name="USERS")
 @SQLDelete(sql =
         "UPDATE users " +
                 "SET deleted = true " +
                 "WHERE id = ?")
 @Where(clause = "deleted = false")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Inheritance(strategy = InheritanceType.JOINED)
+public class User  extends BaseEntity implements Serializable {
     private String email;
     private String username;
     private String password;
     private Boolean enabled = true;
-
-
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
@@ -34,7 +31,4 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID")
     )
     private List<Role> roles = new ArrayList<>();
-
-
-
 }

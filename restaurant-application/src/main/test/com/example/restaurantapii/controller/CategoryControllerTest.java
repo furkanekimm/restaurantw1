@@ -36,7 +36,7 @@ public class CategoryControllerTest {
 
     @Before
     public void setUp(){
-        categoryDTO = new CategoryDTOBuilder().id(1L).urlToImage("null").description("abc").name("new").build();
+        categoryDTO = new CategoryDTOBuilder().id(1L).description("abc").name("new").build();
     }
 
     @Test
@@ -89,6 +89,20 @@ public class CategoryControllerTest {
         Boolean res = categoryController.updateCategory(categoryDTO);
         assertNotNull(res);
         assertEquals(res,false);
+    }
+
+    @Test
+    public void shouldGetAllCategories(){
+        when(categoryService.allCategories()).thenReturn(categoryDTOList);
+        List<CategoryDTO> res = categoryController.allCategory();
+        assertNotNull(res);
+    }
+
+    @Test
+    public void shouldGetCategoryById(){
+        when(categoryService.getCategoryByID(any())).thenReturn(categoryDTO);
+        CategoryDTO res = categoryController.getCategoryByID(categoryDTO.getId());
+        assertNotNull(res);
     }
 
 

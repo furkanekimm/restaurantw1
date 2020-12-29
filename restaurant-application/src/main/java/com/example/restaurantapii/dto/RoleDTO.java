@@ -1,10 +1,12 @@
 package com.example.restaurantapii.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class RoleDTO {
-    private Long id;
+import java.io.Serializable;
+
+@Getter
+@Setter
+public class RoleDTO extends BaseDTO implements Serializable {
     private String name;
-
 }

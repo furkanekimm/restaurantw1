@@ -1,23 +1,20 @@
 package com.example.restaurantapii.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-@Data
-public class CategoryDTO {
-    private Long id;
+import java.io.Serializable;
+
+
+@Getter
+@Setter
+public class CategoryDTO extends BaseDTO implements Serializable {
     private String name;
     private String description;
-    private String urlToImage;
     private Long mediaId;
     private byte[] fileContent;
 
-   // private List<ProductDTO> products = new ArrayList<>();
+    // private List<ProductDTO> products = new ArrayList<>();
 
     private MediaDTO media;
-
-
 }

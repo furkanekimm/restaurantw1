@@ -7,7 +7,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 
-import com.example.restaurantapii.converters.DTOConverter;
+import com.example.restaurantapii.Mapper.WaiterMapper;
 import com.example.restaurantapii.dto.WaiterDTO;
 import com.example.restaurantapii.services.WaiterService;
 import org.junit.Before;
@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class WaiterControllerTest {
 
     @Mock
     private WaiterService waiterService;
+
 
     WaiterDTO waiterDTO = new WaiterDTO();
 

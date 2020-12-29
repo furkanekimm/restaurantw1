@@ -6,11 +6,16 @@ import com.example.restaurantapii.Mapper.ProductMapper;
 import com.example.restaurantapii.dto.ProductDTO;
 import com.example.restaurantapii.entity.Category;
 import com.example.restaurantapii.entity.Product;
+import com.example.restaurantapii.exceptions.BusinessRuleException;
+import com.example.restaurantapii.exceptions.ContentNotFoundException;
+import com.example.restaurantapii.exceptions.Errors;
 import com.example.restaurantapii.repository.CategoryRepository;
 import com.example.restaurantapii.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -32,10 +37,13 @@ public class ProductService {
     @Autowired
     private CategoryMapper categoryMapper;
 
-
+    @Transactional(propagation = Propagation.REQUIRED)
     public ProductDTO addProduct(ProductDTO productDTO) {
+        if(productDTO.getProductName()==null){
+            throw new BusinessRuleException(Errors.RECORD_SHOULD_GET_NAME);
+        }
         Product product =productMapper.toEntity(productDTO);
-        List<Long> categoryIds = productDTO.getCategoryIds();
+        List<Long> categoryIds = productDTO.getCategoryId();
 
         if(categoryIds.isEmpty()){
            return null;
@@ -46,95 +54,54 @@ public class ProductService {
         return productDTO;
     }
 
-    private void prepareCategoryProduct(Product product, List<Long> categoryIds) {
-        List<Category> categories = categoryRepository.findAllById(categoryIds);
-        if(categories==null){
-            return;
-        }
-        categories.forEach(category -> category.getProducts().add(product));
-    }
-
     public List<ProductDTO> listAllProduct() {
         return productMapper.toDTOList(productRepository.findAll());
     }
 
+
     public ProductDTO getProductById(Long id){
-        if(id==null){
-            return null;
-        }
-
-        Optional<Product> optionalProduct = productRepository.findById(id);
-
-        if (!optionalProduct.isPresent()){
-            return null;
-        }
-
+        idNullControl(id);
+        Optional<Product> optionalProduct = getProductAndControl(id);
         Product product = optionalProduct.get();
         ProductDTO productDTO = productMapper.toDTO(product);
         List<Long> categories= new ArrayList<>();
-        product.getCategories().forEach(category -> categories.add(category.getId()));
-        productDTO.setCategoryIds(categories);
+        product.getCategory().forEach(category -> categories.add(category.getId()));
+
+        if(categories.isEmpty()){
+            throw new BusinessRuleException(Errors.RECORD_NOT_FOUND);
+        }
+
+        productDTO.setCategoryId(categories);
         return productDTO;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public Boolean deleteProduct(Long id) {
-        if(id==null){
-            return null;
-        }
-
-        Optional<Product> optionalProduct = productRepository.findById(id);
-
-        if(!optionalProduct.isPresent()){
-            return false;
-        }
-
+        idNullControl(id);
+        Optional<Product> optionalProduct = getProductAndControl(id);
         Product product = optionalProduct.get();
-        product.getCategories().forEach(category -> category.removeProduct(product));
+        product.getCategory().forEach(category -> category.removeProduct(product));
         productRepository.deleteById(id);
-
         return  true;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public ProductDTO updateProduct(ProductDTO productDTO) {
-        if(productDTO==null || productDTO.getId()==null){
-            return null;
+        if(productDTO.getId()==null){
+            throw new BusinessRuleException(Errors.ID_NULL);
         }
 
         Optional<Product> optionalProduct = productRepository.findById(productDTO.getId());
 
-        if(!optionalProduct.isPresent()){
-            return null;
+        if(optionalProduct.isEmpty()){
+            throw new ContentNotFoundException(Errors.RECORD_NOT_FOUND);
         }
 
         Product product = optionalProduct.get();
-        product.setMedia(mediaMapper.toEntity(productDTO.getMedia()));
-
-        if(!productDTO.getProductName().equals(product.getProductName())){
-            product.setProductName(productDTO.getProductName());
-        }
-
-        List<Category> categories = categoryRepository.findAllById(productDTO.getCategoryIds());
-        product.getCategories().forEach(category -> product.getCategories().remove(category));
-        product.setCategories(categories);
-        /*if(categories.isEmpty()){
-            product.setCategories(categoryMapper.toEntityList(productDTO.getCategory()));
-        }else{
-
-            Set<Category> categorySet = new HashSet<>();
-            product.getCategories().forEach(category -> {
-                productDTO.getCategory().forEach(categoryDTO -> {
-                    if(categoryDTO.getId()==category.getId()){
-                        categorySet.add(category);
-                    }
-                });
-            } );
-
-        }
-*/
-        productRepository.saveAndFlush(product);
+        fieldControlAndUpdate(productDTO, product);
+        productRepository.save(product);
         return productDTO;
     }
-
 
     public Page<ProductDTO> getProductLikePage(Pageable pageable){
         Page<Product> productPages = productRepository.findAll(pageable);
@@ -146,15 +113,57 @@ public class ProductService {
         return pages;
    }
 
-
    public Slice<ProductDTO> getProductWithSlice(Pageable pageable,Long id){
         Category category = categoryRepository.findById(id).get();
-        Slice<Product> productPage = productRepository.findProductsByCategories(category,pageable);
+        Slice<Product> productPage = productRepository.findProductsByCategory(category,pageable);
         List<ProductDTO> dtoList = productMapper.toDTOList(productPage.getContent());
-        //Slice<ProductDto> productByProductcategoryId = productRepository.findProductByProductcategoryId(ProductCategoryId, pages).map(productMapper::toDto);
         Slice<ProductDTO> dtoSlice = new PageImpl(dtoList,pageable,productPage.getSize());
         return dtoSlice;
    }
 
+    private void prepareCategoryProduct(Product product, List<Long> categoryIds) {
+        List<Category> categories = categoryRepository.findAllById(categoryIds);
+        if(categories==null){
+            return;
+        }
+        categories.forEach(category -> category.getProducts().add(product));
+    }
 
+    private void idNullControl(Long id) {
+        if(id==null){
+            throw new BusinessRuleException(Errors.ID_NULL);
+        }
+    }
+
+    private Optional<Product> getProductAndControl(Long id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+
+        if (optionalProduct.isEmpty()) {
+            throw new ContentNotFoundException(Errors.RECORD_NOT_FOUND);
+        }
+        return optionalProduct;
+    }
+
+    private void fieldControlAndUpdate(ProductDTO productDTO, Product product) {
+        if(!productDTO.getProductName().equals(product.getProductName())){
+            product.setProductName(productDTO.getProductName());
+        }
+        if(!product.getDescription().equals(productDTO.getDescription())){
+            product.setDescription(productDTO.getDescription());
+        }
+        if(!product.getPrice().equals(productDTO.getPrice())){
+            product.setPrice(productDTO.getPrice());
+        }
+        if(!product.getMedia().getId().equals(productDTO.getMedia().getId())){
+            product.setMedia(mediaMapper.toEntity(productDTO.getMedia()));
+        }
+
+        List<Category> categories = categoryRepository.findAllById(productDTO.getCategoryId());
+        if(categories.isEmpty()){
+            throw new ContentNotFoundException(Errors.RECORD_NOT_FOUND);
+        }
+
+        product.getCategory().forEach(category -> product.getCategory().remove(category));
+        product.setCategory(categories);
+    }
 }

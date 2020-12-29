@@ -81,4 +81,11 @@ public class PlaceRestControllerTest {
         assertEquals(res,placeRestDTO);
     }
 
+    @Test
+    public void shouldGetTableById(){
+        when(placeRestService.getTableById(any())).thenReturn(placeRestDTO);
+        PlaceRestDTO res = placeRestController.getTableById(placeRestDTO.getId());
+        assertNotNull(res);
+    }
+
 }

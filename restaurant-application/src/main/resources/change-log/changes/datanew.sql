@@ -18,13 +18,25 @@ DROP TABLE IF EXISTS roles;
 
 DROP TABLE IF EXISTS users;
 
+DROP TABLE IF EXISTS customer;
+
 /*CREATE TABLE media (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(250) CHARACTER SET utf8 DEFAULT NULL,
   file_content mediumblob DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;*/
-
+CREATE TABLE customer (
+    id int(5) NOT NULL AUTO_INCREMENT,
+    name varchar(50) DEFAULT NULL,
+    last_name varchar (50) DEFAULT NULL,
+    address varchar(250) DEFAULT NULL,
+    phone int(12) DEFAULT  NULL,
+    media_id int(11) DEFAULT NULL,
+    PRIMARY KEY (id),
+    KEY fk_media_customer (media_id),
+    CONSTRAINT fk_media_customer FOREIGN KEY (media_id) REFERENCES media (id)
+);
 
 CREATE TABLE category (
   id int(11) NOT NULL AUTO_INCREMENT,
@@ -67,6 +79,7 @@ CREATE TABLE cart (
   table_id int DEFAULT NULL,
   category_id int DEFAULT NULL,
   waiter_id int DEFAULT NULL,
+  customer_id int DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -74,7 +87,10 @@ CREATE TABLE place_rest (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   table_piece int DEFAULT NULL,
-  PRIMARY KEY (id)
+  media_id int(11) DEFAULT NULL,
+  PRIMARY KEY (id),
+  KEY fk_media_table (media_id),
+  CONSTRAINT fk_media_table FOREIGN KEY (media_id) REFERENCES media (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE roles (

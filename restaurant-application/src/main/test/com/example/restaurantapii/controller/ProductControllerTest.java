@@ -3,17 +3,16 @@ package com.example.restaurantapii.controller;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
+
 
 import com.example.restaurantapii.builder.CategoryDTOBuilder;
 import com.example.restaurantapii.builder.ProductDTOBuilder;
-import com.example.restaurantapii.converters.DTOConverter;
+
 import com.example.restaurantapii.dto.CategoryDTO;
 import com.example.restaurantapii.dto.ProductDTO;
-import com.example.restaurantapii.entity.Product;
+
 import com.example.restaurantapii.services.CategoryService;
+
 import com.example.restaurantapii.services.ProductService;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class ProductControllerTest {
     public void setUp(){
         List<Long> longList = new ArrayList<>();
         longList.add(1L);
-        categoryDTO = new CategoryDTOBuilder().id(1L).urlToImage("null").description("abc").name("new").build();
+        categoryDTO = new CategoryDTOBuilder().id(1L).description("abc").name("new").build();
         categoryService.addCategory(categoryDTO);
         productDTO = new ProductDTOBuilder().id(1L).categoryId(longList).productName("new").build();
     }
@@ -67,18 +67,9 @@ public class ProductControllerTest {
         Long id = 2L;
         when(productService.addProduct(any())).thenReturn(productDTO);
         ProductDTO res = productController.addProduct(productDTO);
-        //assertNotEquals(res.getCategoryId(),id);
+        assertNotEquals(res.getCategoryId(),id);
     }
 
-    @Test
-    public void shouldFindProductsByID(){
-        productDTOList.add(productDTO);
-        Long id = 1L;
-        when(categoryService.findProductsById(any())).thenReturn(productDTOList);
-        List<ProductDTO> res = productController.findProductsById(id);
-        assertNotNull(res);
-        assertEquals(res,productDTOList);
-    }
 
     @Test
     public void shouldListAllProducts(){
@@ -129,7 +120,7 @@ public class ProductControllerTest {
         when(productService.updateProduct(any())).thenReturn(productDTO);
         ProductDTO res = productController.updateProduct(productDTO);
         assertNotNull(res);
-        //assertEquals(res.getCategoryId().get(0),id);
+        assertEquals(res.getCategoryId().get(0),id);
     }
 
     @Test
@@ -137,7 +128,8 @@ public class ProductControllerTest {
         Long id =2L;
         when(productService.updateProduct(any())).thenReturn(productDTO);
         ProductDTO res = productController.updateProduct(productDTO);
-        //assertNotEquals(res.getCategoryId(),id);
+        assertNotEquals(res.getCategoryId(),id);
     }
+
 
 }

@@ -1,18 +1,18 @@
 package com.example.restaurantapii.dto;
 
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
-@Data
-public class ProductDTO {
-    private Long id;
+@Getter
+@Setter
+public class ProductDTO extends BaseDTO implements Serializable {
     private String productName;
     private String description;
     private Long price;
-    private String urlToImage;
     private List<CategoryDTO> category;
-    private List<Long> categoryIds;
+    private List<Long> categoryId;
     private MediaDTO media;
-
 }

@@ -21,3 +21,6 @@ ADD deleted bit(1) DEFAULT b'0';
 
 ALTER TABLE users
 ADD deleted bit(1) DEFAULT b'0';
+
+ALTER TABLE customer
+ADD deleted bit(1) DEFAULT b'0';

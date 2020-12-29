@@ -182,19 +182,19 @@ INSERT INTO category_products VALUES ('1','51'),
 ('20','90'),
 ('20','95');
 
-INSERT INTO place_rest(id,name,table_piece)
-values ('1','INDOOR','13'),
-('2','OUTDOOR','12'),
-('3','TERRACE','15');
+INSERT INTO place_rest(id,name,table_piece,media_id)
+values ('1','INDOOR','13',1),
+('2','OUTDOOR','12',2),
+('3','TERRACE','15',3);
 
-INSERT INTO ROLES(id,name)
+INSERT INTO roles(id,name)
 values('1','ROLE_USER'),
 ('2','ROLE_ADMIN');
 
-INSERT INTO USERS(id,username,email,password)
+INSERT INTO users(id,username,email,password)
 values('1','user','email','$2y$12$ldrSe6bsZoc0C1xyr0q3DuJztDUJ0LNiQOJKCcCkK98t.FZJiomDm'),
 ('2','admin','email','$2y$12$ldrSe6bsZoc0C1xyr0q3DuJztDUJ0LNiQOJKCcCkK98t.FZJiomDm');
 
-INSERT INTO USER_ROLES(USER_ID,ROLE_ID)
+INSERT INTO user_roles(USER_ID,ROLE_ID)
 values('2','1'),('2','2'),('1','1');
 

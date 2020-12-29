@@ -1,7 +1,9 @@
 package com.example.restaurantapii.dto;
 
 
-public class InfoProfileDTO {
+import java.io.Serializable;
+
+public class InfoProfileDTO implements Serializable {
     private  String key;
     private  String value;
 

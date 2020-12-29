@@ -79,9 +79,9 @@ public class UserControllerTest {
     public void shouldGetAllRoles(){
         List<RoleDTO> roleDTOList = new ArrayList<>();
         roleDTOList.add(roleDTO);
-        when(userService.getAllRoles()).thenReturn(roleDTOList);
+        /*when(userService.getAllRoles()).thenReturn(roleDTOList);
         List<RoleDTO> res = userController.getAllRoles();
-        assertNotNull(res);
+        assertNotNull(res);*/
     }
 
     @Test
@@ -91,7 +91,12 @@ public class UserControllerTest {
         assertEquals("Basic authentication is okey.",res);
     }
 
-
+    @Test
+    public void shouldGetUserById(){
+        when(userService.getUserByID(any())).thenReturn(userDTO);
+        UserDTO res = userController.getUserByID(userDTO.getId());
+        assertNotNull(res);
+    }
 
 
 }

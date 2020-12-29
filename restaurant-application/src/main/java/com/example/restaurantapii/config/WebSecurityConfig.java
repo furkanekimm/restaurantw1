@@ -30,15 +30,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeRequests().antMatchers("h2-console/**").permitAll();
         http.authorizeRequests().antMatchers("/person/login").permitAll();
         http.csrf().disable();
         http.headers().frameOptions().disable();
-        http.authorizeRequests().antMatchers("/carts/add","/product/{id}","/product/category/product","/product/category","/product/category/{id}","/category/","/table/list","/place/list","/waiter/list").access("hasAnyRole('USER','ADMIN')");
-        http.authorizeRequests().antMatchers( "/product/**", "/carts/**","/category/**","/info/**","/table/**","/place/**","/waiter/**","/file/**","/person/control/**","/product/get-page","/product/getPageSlice").access("hasRole('ADMIN')");
+        http.authorizeRequests().antMatchers("/carts/add","/product/{id}","/product/category/product","/product/category","/product/category/{id}","/category/","/table/list","/place/list","/waiter/list","/customer/**").access("hasAnyRole('USER','ADMIN')");
+        http.authorizeRequests().antMatchers( "/product/**", "/carts/**","/category/**","/info/**","/table/**","/place/**","/waiter/**","/file/**","/person/control/**","/product/getPage","/product/getPageSlice").access("hasRole('ADMIN')");
         http.httpBasic();
         http.cors();
     }

@@ -1,13 +1,13 @@
 package com.example.restaurantapii.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 
-
-import lombok.Data;
-
+import java.io.Serializable;
 import java.sql.Timestamp;
-@Data
-public class CartDTO {
-    private Long id;
+@Getter
+@Setter
+public class CartDTO extends BaseDTO implements Serializable {
     private Timestamp createDate;
     private  Long piece;
     private Long total;
@@ -15,6 +15,7 @@ public class CartDTO {
     private Long tableId;
     private Long categoryId;
     private Long waiterId;
+    private Long customerId;
 
 
 }

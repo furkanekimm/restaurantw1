@@ -1,28 +1,29 @@
 package com.example.restaurantapii.services;
 
 import com.example.restaurantapii.Mapper.CategoryMapper;
+import com.example.restaurantapii.Mapper.MediaMapper;
 import com.example.restaurantapii.Mapper.ProductMapper;
-import com.example.restaurantapii.converters.DTOConverter;
-import com.example.restaurantapii.converters.EntityConvertor;
 import com.example.restaurantapii.dto.CategoryDTO;
-import com.example.restaurantapii.dto.ProductDTO;
 import com.example.restaurantapii.entity.Category;
-import com.example.restaurantapii.entity.Media;
-import com.example.restaurantapii.entity.Product;
+import com.example.restaurantapii.exceptions.BusinessRuleException;
+import com.example.restaurantapii.exceptions.ContentNotFoundException;
+import com.example.restaurantapii.exceptions.Errors;
+import com.example.restaurantapii.exceptions.SystemException;
 import com.example.restaurantapii.repository.CategoryRepository;
-import com.example.restaurantapii.repository.MediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
     @Autowired
-    CategoryRepository categoryRepository;
-
-    @Autowired
-    private MediaRepository mediaRepository;
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private CategoryMapper categoryMapper;
@@ -30,54 +31,82 @@ public class CategoryService {
     @Autowired
     private ProductMapper productMapper;
 
-    public List<ProductDTO> findProductsById(Long id){
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if(!optionalCategory.isPresent()){
-            return Collections.emptyList();
-        }
-        List<Product> products = optionalCategory.get().getProducts();
-        //Set<Product> products = optionalCategory.get().getProducts();
-        List<ProductDTO> productDTOSet = productMapper.toDTOList(products);
-       // categoryMapper.toDTOList(categoryRepository.findAll());
-        return productDTOSet;
-    }
+    @Autowired
+    private MediaMapper mediaMapper;
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    @CacheEvict(value = "categoryData",allEntries = true)
     public Boolean deleteCategory(Long id){
-        if(categoryRepository.existsById(id)){
-            categoryRepository.deleteById(id);
-            return true;
+        if(id==null){
+            throw new BusinessRuleException(Errors.ID_NULL);
         }
-        return false;
+        if(!categoryRepository.existsById(id)){
+            throw new SystemException(Errors.ID_NOT_FOUND);
+        }
+        categoryRepository.deleteById(id);
+        return true;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    @CacheEvict(value = "categoryData",allEntries = true)
     public CategoryDTO addCategory(CategoryDTO categoryDTO){
+        if(categoryDTO.getMedia().getId()==null){
+            throw new BusinessRuleException(Errors.MEDIA_NOT_FOUND);
+        }
+
+        if(categoryDTO.getName()==null){
+            throw new BusinessRuleException(Errors.RECORD_SHOULD_GET_NAME);
+        }
+
         Category category = categoryMapper.toEntity(categoryDTO);
-        Media media =mediaRepository.findById(categoryDTO.getMediaId()).get();
-        category.setMedia(media);
         categoryRepository.save(category);
         return categoryDTO;
     }
 
+    @Cacheable(value = "categoryData")
     public List<CategoryDTO> allCategories(){
         List<CategoryDTO> categoryDTOList = categoryMapper.toDTOList(categoryRepository.findAll());
         return categoryDTOList;
     }
 
-
+    @Transactional(propagation = Propagation.REQUIRED)
+    @CacheEvict(value = "categoryData",allEntries = true)
     public boolean updateCategory(CategoryDTO categoryDTO){
-        Category category1 = categoryMapper.toEntity(categoryDTO);
-        Media media = mediaRepository.findById(categoryDTO.getMediaId()).get();
-        category1.setMedia(media);
-        Category category = categoryRepository.saveAndFlush(category1);
-        if(category.getId()==0){
-            return false;
+        if(categoryDTO.getId()==null){
+            throw new BusinessRuleException(Errors.ID_NULL);
         }
+
+        Optional<Category> optionalCategory = categoryRepository.findById(categoryDTO.getId());
+
+        if(optionalCategory.isEmpty()){
+            throw new ContentNotFoundException(Errors.RECORD_NOT_FOUND);
+        }
+
+        if(!optionalCategory.get().getName().equals(categoryDTO.getName())){
+            optionalCategory.get().setName(categoryDTO.getName());
+        }
+        if(!optionalCategory.get().getDescription().equals(categoryDTO.getDescription())){
+            optionalCategory.get().setDescription(categoryDTO.getDescription());
+        }
+        if(!optionalCategory.get().getMedia().getId().equals(categoryDTO.getMedia().getId())){
+            optionalCategory.get().setMedia(mediaMapper.toEntity(categoryDTO.getMedia()));
+        }
+
+        categoryRepository.save(optionalCategory.get());
         return true;
     }
 
-        public CategoryDTO getCategoryByID(Long id){
-        CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO = categoryMapper.toDTO(categoryRepository.findById(id).get());
-        return categoryDTO;
-         }
+    public CategoryDTO getCategoryByID(Long id){
+        if(id==null){
+            throw new BusinessRuleException(Errors.ID_NULL);
+        }
+
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+
+        if(optionalCategory.isEmpty()){
+            throw new ContentNotFoundException(Errors.RECORD_NOT_FOUND);
+        }
+
+        return categoryMapper.toDTO(optionalCategory.get());
+    }
 }
