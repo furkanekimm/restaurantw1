@@ -50,7 +50,6 @@ class TableCartComponent extends Component {
                 placeName: this.state.placeName
             }
         })
-
     }
 
     render() {

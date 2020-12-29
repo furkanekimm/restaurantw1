@@ -1,42 +1,13 @@
 import axios from 'axios';
+const CUSTOMER_BASE_URL = "http://localhost:8080/customer";
 
-const PRODUCT_API_BASE_URL = "http://localhost:8080/product"
-const CART_BASE_URL ="http://localhost:8080/"
-const CATEGORY_API_BASE_URL = "http://localhost:8080/category/"
+class CustomerService{
 
-
-class ProductService{
-
-   
-    listAllProduct(){
-        return axios.get(PRODUCT_API_BASE_URL, {
-            auth: {
-                username: localStorage.getItem("username"),
-                password: localStorage.getItem("password")
-            }
-        });
-    }
-
- /*   listAllCategory(){
-        return axios.get(PRODUCT_API_BASE_URL+"/category", {
-            auth: {
-                username: localStorage.getItem("username"),
-                password: localStorage.getItem("password")
-            }
-        });
-    }*/
-
-    listByCategory(id){
-        return axios.get(PRODUCT_API_BASE_URL+"/category/"+id,{
-            auth: {
-                username: localStorage.getItem("username"),
-                password: localStorage.getItem("password")
-            }
-        });
-    }
-
-    saleButton(Carts){
-        return axios.post(CART_BASE_URL+"carts",Carts,{
+    customersWithPage(page){
+        return axios.get(CUSTOMER_BASE_URL+"/page",{
+            params:{
+                page:page
+            },
             auth: {
                 username: localStorage.getItem("username"),
                 password: localStorage.getItem("password")
@@ -44,22 +15,50 @@ class ProductService{
         })
     }
 
-    listCategories(){
-        return axios.get(CATEGORY_API_BASE_URL,{
-            auth:{
+    deleteCustomer(id){
+        return axios.delete(CUSTOMER_BASE_URL+"/"+id,{
+            auth: {
                 username: localStorage.getItem("username"),
                 password: localStorage.getItem("password")
             }
-        });
+        })
     }
 
-    listProductsByCateIdLikeSlice(id,page){
-        return axios.get(PRODUCT_API_BASE_URL+"/get-page-slice",{
+    addCustomer(customer){
+        return axios.post(CUSTOMER_BASE_URL,customer,{
+            auth: {
+                username: localStorage.getItem("username"),
+                password: localStorage.getItem("password")
+            }
+        })
+    }
+
+    getCustomerByName(name,page){
+        return axios.get(CUSTOMER_BASE_URL+"/page-name",{
             params:{
-                id:id,
+                name:name,
                 page:page
             },
-            auth:{
+            auth: {
+                username: localStorage.getItem("username"),
+                password: localStorage.getItem("password")
+            }
+
+        })
+    }
+
+    getCustomerByID(id){
+        return axios.get(CUSTOMER_BASE_URL+"/"+id,{
+            auth: {
+                username: localStorage.getItem("username"),
+                password: localStorage.getItem("password")
+            }
+        })
+    }
+
+    updateCustomer(customer){
+        return axios.post(CUSTOMER_BASE_URL,customer,{
+            auth: {
                 username: localStorage.getItem("username"),
                 password: localStorage.getItem("password")
             }
@@ -68,4 +67,4 @@ class ProductService{
 
 
 }
-export default new ProductService()
+export default new CustomerService();

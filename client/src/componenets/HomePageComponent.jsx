@@ -101,9 +101,9 @@ class HomePageComponent extends Component {
                         <div className="col-lg-4 col-xs-12 text-center">
                             <div className="box">
                                 <div className="box-btn">
-                                    <a href="/product"><i className="fa fa-behance fa-3x" aria-hidden="true"></i>
+                                    <a href="/list-customer"><i className="fa fa-behance fa-3x" aria-hidden="true"></i>
                                         <div className="box-title">
-                                            <h3 className="box-text1">&nbsp;&nbsp;</h3>
+                                            <h3 className="box-text1">CUSTOMER</h3>
                                         </div>
                                         <div className="box-text">
                                             <span></span>
