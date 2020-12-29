@@ -5,7 +5,7 @@ const CATEGORY_API_BASE_URL = "http://localhost:8080/category/"
 class ProductService {
 
     addProduct(product, users) {
-        return axios.post(PRODUCT_API_BASE_URL + 'add', product, {
+        return axios.post(PRODUCT_API_BASE_URL , product, {
             auth: {
                 username: users.username,
                 password: users.password
@@ -23,7 +23,7 @@ class ProductService {
     }
 
     getProductById(id, users) {
-        return axios.get(PRODUCT_API_BASE_URL + id, {
+        return axios.get(PRODUCT_API_BASE_URL +"get/"+ id, {
             auth: {
                 username: users.username,
                 password: users.password
@@ -32,7 +32,7 @@ class ProductService {
     }
 
     updateProduct(product, users) {
-        return axios.put(PRODUCT_API_BASE_URL + 'update/', product, {
+        return axios.put(PRODUCT_API_BASE_URL, product, {
             auth: {
                 username: users.username,
                 password: users.password
@@ -41,7 +41,7 @@ class ProductService {
     }
 
     deleteProduct(id, users) {
-        return axios.delete(PRODUCT_API_BASE_URL + "delete/" + id, {
+        return axios.delete(PRODUCT_API_BASE_URL + id, {
             auth: {
                 username: users.username,
                 password: users.password
@@ -68,7 +68,7 @@ class ProductService {
         });
     }
     listCarts(users) {
-        return axios.get("http://localhost:8080/carts/list", {
+        return axios.get("http://localhost:8080/carts", {
             auth: {
                 username: users.username,
                 password: users.password
@@ -101,6 +101,18 @@ class ProductService {
                 password: users.password
             }
         });
+    }
+
+    getProductWithPage(page,users){
+        return axios.get(PRODUCT_API_BASE_URL+"get-page",{
+            params:{
+                page:page
+            },
+            auth: {
+                username: users.username,
+                password: users.password
+            }
+        })
     }
 
 }

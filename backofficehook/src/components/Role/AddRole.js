@@ -18,7 +18,7 @@ const AddRole=(props)=>{
     const saveRole= async (e)=>{
         e.preventDefault();
         let role={
-            name:name
+            name:"ROLE_"+name
         }
         const res = await UserService.addRole(role,users);
         if(res.status=='200'){

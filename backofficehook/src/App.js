@@ -24,7 +24,11 @@ import ListInfos from "./components/Info/ListInfos";
 import ListTables from "./components/Table/ListTables";
 import AddTable from "./components/Table/AddTable";
 import EditTable from "./components/Table/EditTable";
-import InfoServices from './services/InfoServices';
+import ListCustomers from './components/Customer/ListCustomers';
+import AddCustomer from './components/Customer/AddCustomer';
+import EditCustomer from './components/Customer/EditCustomer';
+import {NotificationContainer} from 'react-notifications';
+import HeaderComponent from './components/HeaderComponent';
 function App() {
   return (
     <ContextProvider>
@@ -33,6 +37,9 @@ function App() {
         <Router>
           <div class="container">
             <Switch>
+              <Route path="/update-customer" component={EditCustomer}></Route>
+              <Route path="/add-customer" component={AddCustomer}></Route>
+              <Route path="/customers" component={ListCustomers}></Route>
               <Route path="/updatetable" component={EditTable}></Route>
               <Route path="/addtable" component={AddTable}></Route>
               <Route path="/tables" component={ListTables}></Route>
@@ -56,12 +63,15 @@ function App() {
               <Route path="/categories" component={ListCategory}></Route>
               <Route path="/addcategory" component={AddCategory}></Route>
               <Route path="/" component={Login} />
+              
             </Switch>
+            <NotificationContainer/>
           </div>
         </Router>
       </div>
     </ContextProvider>
   );
+  
 }
 
 export default App;

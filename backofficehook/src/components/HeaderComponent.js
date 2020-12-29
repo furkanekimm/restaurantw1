@@ -1,6 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component, useContext, useState,useRef} from 'react';
 import {useHistory} from 'react-router-dom';
+import {Context} from '../contexts/Context';
+
 const HeaderComponent=(props)=>{
+    const refTurkish = useRef();
+    const refEnglish = useRef();
+    const{lang,setLang} = useContext(Context);
+    const turkeyFlag = "https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg";
+    const englandFlag = "https://i4.hurimg.com/i/hurriyet/75/750x422/55ea65fdf018fbb8f87d5486.jpg";
     const history = useHistory();
     const logout=(e)=>{
         localStorage.removeItem("username");
@@ -40,6 +47,14 @@ const HeaderComponent=(props)=>{
 
     const goTables=(e)=>{
         history.push('/tables');
+    }
+    const goCustomers=(e)=>{
+        history.push('/customers');
+    }
+    
+    const changeLanguage=(e)=>{
+        console.log(refTurkish)
+        setLang({...lang,lang:'tr'});
     }
 
     return (
@@ -92,8 +107,13 @@ const HeaderComponent=(props)=>{
                     <li className="nav-item">
                         <a className="nav-link " href="#" onClick={(e)=>goTables(e)}>TablePlaces</a>
                     </li>
+                    <li className="nav-item">
+                        <a className="nav-link " href="#" onClick={(e)=>goCustomers(e)}>Customers</a>
+                    </li>
                 </ul>
                 <form className="form-inline my-2 my-lg-0">
+                <a href="#"  onClick={(e)=>changeLanguage(e)}><img ref={refTurkish} src={turkeyFlag} width="45rem" height="35rem" style={{marginRight:"5px"}}/></a>
+                <a href="#"  onClick={()=>setLang({...lang,lang:'en'})}><img ref={refEnglish} src={englandFlag} width="45rem" height="35rem" style={{marginRight:"5px"}}/></a>
                         <button className="btn btn-outline-danger my-2 my-sm-0" type="submit" onClick={()=>logout()}>Logout</button>
                 </form>
             </div>

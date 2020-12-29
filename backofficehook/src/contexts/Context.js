@@ -8,7 +8,7 @@ const ContextProvider = (props) =>{
         username:'',
         password:''
     })
-
+    const[lang,setLang]=useState({lang:'tr'});
     const{username,password}=users;
     const login = async (username,password) =>{
         const res = await axios.get("http://localhost:8080/person/login",{
@@ -36,7 +36,7 @@ const ContextProvider = (props) =>{
     
 
     return(
-        <Context.Provider value={{users,login,authorizeControl}}>
+        <Context.Provider value={{users,login,authorizeControl,lang,setLang}}>
             {props.children}
         </Context.Provider>
     )

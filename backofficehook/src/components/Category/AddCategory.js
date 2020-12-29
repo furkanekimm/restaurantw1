@@ -4,14 +4,15 @@ import { useHistory } from 'react-router-dom';
 import MediaService from "../../services/MediaService";
 import HeaderComponent from '../HeaderComponent';
 import ProductService from '../../services/ProductService';
+import {createNotification} from '../ErrorHandling';
 const AddCategory = (props) => {
 
-    const { users } = useContext(Context);
+    const { users,lang } = useContext(Context);
     const history = useHistory();
     const refImage = useRef();
 
     const [category, setCategory] = useState({
-        name: '', description: ''
+        name: '', description: '',media:''
     });
     const [selectedImage,setSelectedImage]=useState([]);
     const [media,setMedia]=useState([]);
@@ -19,26 +20,29 @@ const AddCategory = (props) => {
     const { name, description} = category;
 
     const showImage = async (e) => {
-        console.log(media);
-        console.log(refImage.current.value);
         const refId= refImage.current.value;
         e.preventDefault();
         await setSelectedImage(media.filter(media => media.id == refId)[0])
-        console.log(selectedImage);
-        console.log(media.filter(media => media.id == refId)[0]);
     }
 
     const saveCategory = async (e) => {
         e.preventDefault();
         let category = {
-            name: name,
+            name:name,
             description: description,
-            mediaId: refImage.current.value,
+            media: selectedImage
         };
-        const res = await ProductService.addCategory(category,users);
-        if (res.status == '200') {
-            history.push('/categories');
-        }
+        ProductService.addCategory(category,users).then(res=>{
+            console.log(res)
+            if(res.status===200){
+                createNotification(res.status,'add',lang);
+                history.push('/categories');
+            }
+        
+        }).catch(({response})=>{
+            createNotification(response.data.errorCode,0,lang);
+        });
+       
 
     }
 
@@ -52,8 +56,8 @@ const AddCategory = (props) => {
 
     async function getAllMedia() {
         const res = await MediaService.getAllMedia(users)
-        await setMedia(res.data);
-        await setSelectedImage(res.data[0]);
+        setMedia(res.data);
+        setSelectedImage(res.data[0]);
     }
 
     useEffect(() => {

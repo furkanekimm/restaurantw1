@@ -5,21 +5,22 @@ import HeaderComponent from '../HeaderComponent';
 import ProductService from '../../services/ProductService';
 import {Context} from '../../contexts/Context';
 import Loading from "../Loading";
+import {createNotification} from '../ErrorHandling';
 const EditCategory = (props) => {
-    const{users}=useContext(Context);
+    const{users,lang}=useContext(Context);
     const [loading, setLoading] = useState(true);
     const history = useHistory();
     const refImage = useRef();
-    const [media, setMedia] = useState([]);
+    const [medias, setMedias] = useState([]);
     const [category, setCategory] = useState({
-        id: history.location.state?.id, name: '', description: '', fileContent: '', mediaId: ''
+        id: history.location.state?.id, name: '', description: '',  media: ''
     });
 
 
-    const { id, name, description, fileContent, mediaId } = category;
+    const { id, name, description, media } = category;
 
     const showImage = async (e) => {
-        await setCategory({ ...category, fileContent: media.filter(media => media.id == refImage.current.value)[0].fileContent })
+        await setCategory({ ...category, media: medias.filter(media => media.id == refImage.current.value)[0] })
         e.preventDefault();
     }
 
@@ -29,10 +30,15 @@ const EditCategory = (props) => {
             id: id,
             name: name,
             description: description,
-            mediaId: refImage.current.value,
+            media:media
         };
-        const res = await ProductService.updateCategory(category,users);
-        history.push('/categories');
+        ProductService.updateCategory(category,users).then(res=>{
+            createNotification(res.status,'update',lang);
+            history.push('/categories');
+        }).catch(({response})=>{
+            createNotification(response.data.errorCode,0,lang);
+        });
+        
     }
 
     const changeNameHandler = (event) => {
@@ -44,21 +50,28 @@ const EditCategory = (props) => {
     }
 
     async function getCategoryByID() {
-        const response = await ProductService.getCategoryByID(id,users);
-        await setCategory({
-            ...category,
-            name: response.data.name,
-            description: response.data.description,
-            fileContent: response.data.fileContent,
-            mediaId: response.data.mediaId
-        })
+        ProductService.getCategoryByID(id,users).then(res=>{
+            if(res.status===200){
+                setCategory({
+                    ...category,
+                    name: res.data.name,
+                    description: res.data.description,
+                    fileContent: res.data.media.fileContent,
+                    media: res.data.media
+                })
+            }
+        }).catch(
+            ({response})=>{
+                createNotification(response.data.errorCode,0,lang)
+            }
+        );
     }
 
     async function getAllMedias() {
         const res = await MediaService.getAllMedia(users);
         console.log(res);
         if (res.status == 200) {
-            await setMedia(res.data);
+            await setMedias(res.data);
         }
     }
     async function getData() {
@@ -94,17 +107,17 @@ const EditCategory = (props) => {
                                                     <select onChange={(e) => showImage(e)}
                                                         className="form-control" id="option" ref={refImage}>
                                                         {
-                                                            media.map(
-                                                                media =>
-                                                                    <option key={media.id} selected={category.mediaId === media.id}
-                                                                        value={media.id}>{media.name} </option>
+                                                            medias.map(
+                                                                mediaNew =>
+                                                                    <option key={mediaNew.id} selected={mediaNew.id === media.id}
+                                                                        value={mediaNew.id}>{mediaNew.name} </option>
                                                             )
                                                         }
                                                     </select>
                                                 </div>
                                                 <div className="col-md-4 offset-md-2">
                                                     <div className="">
-                                                        <img src={'data:image/png;base64,' + fileContent}
+                                                        <img src={'data:image/png;base64,' + media.fileContent}
                                                             width="45rem" height="39rem"
                                                         />
                                                     </div>

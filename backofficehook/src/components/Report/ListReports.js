@@ -44,6 +44,7 @@ const ListReports = (props) => {
                                         <th>Table ID</th>
                                         <th>Category ID</th>
                                         <th>Waiter ID</th>
+                                        <th>Customer ID</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,6 +59,7 @@ const ListReports = (props) => {
                                                     <td>{cart.tableId}</td>
                                                     <td>{cart.categoryId}</td>
                                                     <td>{cart.waiterId}</td>
+                                                    <td>{cart.customerId}</td>
                                                 </tr>
                                         )
                                     }

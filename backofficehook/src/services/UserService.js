@@ -67,7 +67,7 @@ class UserService{
     }
 
     listAllRoles(users){
-        return axios.get(USER_API_BASE_URL+"control/allroles/",{
+        return axios.get(ROLE_API_BASE_URL+"list",{
             auth: {
                 username: users.username,
                 password: users.password

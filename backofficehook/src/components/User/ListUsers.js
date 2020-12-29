@@ -17,6 +17,7 @@ const ListUsers = (props) => {
             history.push('/');
         }
         const res = await UserService.listAllUser(users);
+        await console.log(res);
         if (res.status == '200') {
             setUser(res.data);
         }

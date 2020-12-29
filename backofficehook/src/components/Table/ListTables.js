@@ -4,6 +4,9 @@ import { useHistory } from "react-router-dom";
 import TableService from '../../services/TableService';
 import HeaderComponent from '../HeaderComponent';
 import Loading from "../Loading";
+import {createNotification} from '../ErrorHandling';
+// import { NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 const ListTables = (props) => {
     const { users, authorizeControl } = useContext(Context);
     const history = useHistory();
@@ -36,12 +39,14 @@ const ListTables = (props) => {
     }
 
     const addPlace = (e) => {
-        history.push('/addtable')
+        history.push('/addtable');
+        e.preventDefault();
     }
 
     const deletePlace = async (id) => {
         const res = await TableService.deletePlaceRest(id, users);
-        if (res.status == '200') {
+        if (res.status === 200) {
+            createNotification(res.status,'Info message');
             setTables(tables.filter(table => table.id !== id));
         }
     }
@@ -61,6 +66,7 @@ const ListTables = (props) => {
                             <button style={{ marginTop: "15px", marginBottom: "10px" }} className="btn btn-primary" onClick={(e) => addPlace(e)}>Add
                             Place
                         </button>
+            
                         </div>
                         <div className="row">
                             <table className="table table-striped table-bordered">
@@ -68,6 +74,7 @@ const ListTables = (props) => {
                                     <tr>
                                         <th>Name</th>
                                         <th>Table Piece</th>
+                                        <th>Image</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -78,6 +85,11 @@ const ListTables = (props) => {
                                                 <tr key={place.id}>
                                                     <td>{place.name}</td>
                                                     <td>{place.tablePiece}</td>
+                                                    <td><img
+                                                        style={{ marginLeft: "3rem", marginRight: "10px" }}
+                                                        src={'data:image/png;base64,' + place.media.fileContent}
+                                                        width="45rem" height="39rem"
+                                                    /></td>
                                                     <td>
                                                         <button
                                                             onClick={(e) => editPlace(place.id)}
@@ -95,7 +107,7 @@ const ListTables = (props) => {
                             </table>
                         </div>
                     </div>
-
+                    
                 </div>
             }
         </>
