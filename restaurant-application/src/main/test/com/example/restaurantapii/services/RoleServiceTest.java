@@ -60,13 +60,6 @@ public class RoleServiceTest {
         assertNotNull(res);
     }
 
-    @Test(expected = BusinessRuleException.class)
-    public void shouldNotAddTableWhenNameNull(){
-        roleDTO.setName(null);
-        when(roleRepository.save(any())).thenReturn(role);
-        roleService.addRole(roleDTO);
-    }
-
     @Test
     public void shouldDeleteCustomer(){
         Long id=1L;
@@ -78,13 +71,6 @@ public class RoleServiceTest {
     @Test(expected = SystemException.class)
     public void shouldNotDeleteWhenIdNotFound(){
         Long id=1L;
-        when(roleRepository.existsById(any())).thenReturn(Boolean.FALSE);
-        roleService.deleteRole(id);
-    }
-
-    @Test(expected = BusinessRuleException.class)
-    public void shouldNotDeleteWhenIdNull(){
-        Long id=null;
         when(roleRepository.existsById(any())).thenReturn(Boolean.FALSE);
         roleService.deleteRole(id);
     }

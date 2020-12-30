@@ -9,14 +9,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
 @RequestMapping("/product")
 @CrossOrigin(origins = "*")
+@Validated
 public class ProductController {
 
     @Autowired
@@ -27,7 +32,7 @@ public class ProductController {
 
 
     @PostMapping()
-    public ProductDTO addProduct(@RequestBody ProductDTO productDTO){
+    public ProductDTO addProduct(@Valid @RequestBody ProductDTO productDTO){
         return productService.addProduct(productDTO);
     }
 
@@ -37,12 +42,12 @@ public class ProductController {
     }
 
     @GetMapping("/get/{id}")
-    public ProductDTO getProductById(@PathVariable Long id) {
+    public ProductDTO getProductById(@NotNull(message = "{ID_NULL}") @Min(value = 0,message = "{ID_NOT_BE_LITTLE_ZERO}") @PathVariable Long id) {
        return productService.getProductById(id);
     }
 
     @DeleteMapping("/{id}")
-    public Boolean deleteProduct(@PathVariable Long id) {
+    public Boolean deleteProduct(@NotNull(message = "{ID_NULL}") @Min(value = 0,message = "{ID_NOT_BE_LITTLE_ZERO}") @PathVariable Long id) {
         return productService.deleteProduct(id);
     }
 

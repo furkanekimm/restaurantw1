@@ -68,12 +68,6 @@ public class CategoryServicesTest {
         categoryService.addCategory(categoryDTO);
     }
 
-    @Test(expected = BusinessRuleException.class)
-    public void shouldAddCategoryWhenNameNull(){
-        categoryDTO.setName(null);
-        categoryService.addCategory(categoryDTO);
-    }
-
     @Test
     public void shouldGetProductByID(){
         Long id=1L;
@@ -89,24 +83,10 @@ public class CategoryServicesTest {
         categoryService.getCategoryByID(id);
     }
 
-    @Test(expected = BusinessRuleException.class)
-    public void shouldNotGetProductWhenIDNull(){
-        Long id=null;
-        when(categoryRepository.findById(any())).thenReturn(null);
-        categoryService.getCategoryByID(id);
-    }
-
     @Test
     public void shouldDeleteCategory(){
         when(categoryRepository.existsById(any())).thenReturn(Boolean.TRUE);
         Long id = 1L;
-        Boolean res = categoryService.deleteCategory(id);
-        assertEquals(res,true);
-    }
-
-    @Test(expected = BusinessRuleException.class)
-    public void shouldNotDeleteCategoryWhenIdNull(){
-        Long id = null;
         Boolean res = categoryService.deleteCategory(id);
         assertEquals(res,true);
     }

@@ -62,10 +62,6 @@ public class MediaService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public Boolean deleteMedia(Long id){
-        if(id==null){
-            throw new BusinessRuleException(Errors.ID_NULL);
-        }
-
         Optional<Media> optionalMedia = mediaRepository.findById(id);
         if(optionalMedia.isEmpty()){
             throw new SystemException(Errors.ID_NOT_FOUND);

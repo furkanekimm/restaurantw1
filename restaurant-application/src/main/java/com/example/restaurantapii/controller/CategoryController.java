@@ -3,19 +3,26 @@ package com.example.restaurantapii.controller;
 import com.example.restaurantapii.dto.CategoryDTO;
 import com.example.restaurantapii.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
 @RequestMapping("/category")
 @CrossOrigin(origins = "*")
+@Validated
 public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
     @PostMapping("/add")
-    public CategoryDTO addCategory(@RequestBody CategoryDTO category){
+    public CategoryDTO addCategory(@Valid @RequestBody CategoryDTO category){
         return categoryService.addCategory(category);
     }
 
@@ -25,7 +32,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteCategory(@PathVariable Long id){
+    public boolean deleteCategory(@PathVariable @NotNull(message = "{ID_NULL}") @Min(value = 0,message = "{ID_NOT_BE_LITTLE_ZERO}") Long id){
         return categoryService.deleteCategory(id);
     }
 
@@ -35,7 +42,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public CategoryDTO getCategoryByID(@PathVariable Long id){
+    public CategoryDTO getCategoryByID(@NotNull(message = "{ID_NULL}") @Min(value = 0,message = "{ID_NOT_BE_LITTLE_ZERO}") @PathVariable Long id){
         return categoryService.getCategoryByID(id);
     }
 

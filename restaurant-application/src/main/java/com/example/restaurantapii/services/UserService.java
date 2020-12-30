@@ -35,10 +35,6 @@ public class UserService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public UserDTO addUser(UserDTO userDTO){
-        if(userDTO.getUsername()==null){
-            throw new BusinessRuleException(Errors.RECORD_SHOULD_GET_NAME);
-        }
-
         User user = userMapper.toEntity(userDTO);
         List<Role> roles = getRolesAndControl(userDTO);
 
@@ -76,10 +72,6 @@ public class UserService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public String deleteUser(Long id){
-        if(id==null){
-            throw new BusinessRuleException(Errors.ID_NULL);
-        }
-
         Optional<User> optionalUser = getUserById(id);
         optionalUser.get().setRoles(null);
         userRepository.deleteById(id);
@@ -87,10 +79,6 @@ public class UserService {
     }
 
     public UserDTO getUserByID(Long id){
-        if(id==null){
-            throw new BusinessRuleException(Errors.ID_NULL);
-        }
-
         Optional<User> optionalUser = getUserById(id);
         UserDTO userDTO = userMapper.toDTO(optionalUser.get());
         List<Long> longList = new ArrayList<>();

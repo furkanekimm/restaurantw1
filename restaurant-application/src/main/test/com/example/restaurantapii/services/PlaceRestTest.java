@@ -113,12 +113,6 @@ public class PlaceRestTest {
         assertNotNull(res);
     }
 
-    @Test(expected = BusinessRuleException.class)
-    public void shouldNotGetCustomerWhenIdNull(){
-        Long id = null;
-        placeRestService.getTableById(id);
-    }
-
     @Test(expected = SystemException.class)
     public void shouldNotGetCustomerWhenCustomerNotFound(){
         Long id =1L;

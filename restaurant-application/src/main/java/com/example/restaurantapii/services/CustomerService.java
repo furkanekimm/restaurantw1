@@ -29,10 +29,6 @@ public class CustomerService {
     private MediaMapper mediaMapper;
 
     public CustomerDTO addCustomer(CustomerDTO customerDTO){
-        if(customerDTO.getName()==null){
-            throw new BusinessRuleException(Errors.RECORD_SHOULD_GET_NAME);
-        }
-
         customerRepository.save(customerMapper.toEntity(customerDTO));
         return customerDTO;
     }
@@ -51,10 +47,6 @@ public class CustomerService {
     }
 
     public CustomerDTO getCustomerById(Long id){
-        if(id==null){
-            throw new BusinessRuleException(Errors.ID_NULL);
-        }
-
         CustomerDTO customerDTO = customerMapper.toDTO(customerRepository.findById(id).get());
         categoryNotFoundExceptionControl(customerDTO);
         return customerDTO;

@@ -72,7 +72,6 @@ public class PlaceRestService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public Boolean deletePlaceRest(Long id){
-        tableIdNullControl(id);
         if(!placeRestRepository.existsById(id)){
             throw new ContentNotFoundException(Errors.RECORD_NOT_FOUND);
         }
@@ -82,7 +81,6 @@ public class PlaceRestService {
     }
 
     public PlaceRestDTO getTableById(Long id){
-        tableIdNullControl(id);
         Optional<PlaceRest> optionalPlaceRest = placeRestRepository.findById(id);
         if(optionalPlaceRest.isEmpty()){
             throw new SystemException(Errors.RECORD_NOT_FOUND);
@@ -92,9 +90,5 @@ public class PlaceRestService {
         return placeRestDTO;
     }
 
-    private void tableIdNullControl(Long id) {
-        if(id==null){
-            throw new BusinessRuleException(Errors.ID_NULL);
-        }
-    }
+
 }

@@ -76,13 +76,6 @@ public class CustomerServiceTest {
         assertNotNull(res);
     }
 
-    @Test(expected = BusinessRuleException.class)
-    public void shouldNotAddCustomerWhenNameNull(){
-        customerDTO.setName(null);
-        when(customerRepository.save(any())).thenReturn(customer);
-        customerService.addCustomer(customerDTO);
-    }
-
     @Test
     public void shouldGetAllCustomers(){
         when(customerRepository.findAll()).thenReturn(customerList);
@@ -109,12 +102,6 @@ public class CustomerServiceTest {
         when(customerRepository.findById(any())).thenReturn(Optional.of(customer));
         CustomerDTO res = customerService.getCustomerById(customerDTO.getId());
         assertNotNull(res);
-    }
-
-    @Test(expected = BusinessRuleException.class)
-    public void shouldNotGetCustomerWhenIdNull(){
-        Long id = null;
-        customerService.getCustomerById(id);
     }
 
     @Test(expected = ContentNotFoundException.class)

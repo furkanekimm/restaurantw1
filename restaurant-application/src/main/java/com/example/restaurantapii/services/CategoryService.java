@@ -37,9 +37,6 @@ public class CategoryService {
     @Transactional(propagation = Propagation.REQUIRED)
     @CacheEvict(value = "categoryData",allEntries = true)
     public Boolean deleteCategory(Long id){
-        if(id==null){
-            throw new BusinessRuleException(Errors.ID_NULL);
-        }
         if(!categoryRepository.existsById(id)){
             throw new SystemException(Errors.ID_NOT_FOUND);
         }
@@ -52,10 +49,6 @@ public class CategoryService {
     public CategoryDTO addCategory(CategoryDTO categoryDTO){
         if(categoryDTO.getMedia().getId()==null){
             throw new BusinessRuleException(Errors.MEDIA_NOT_FOUND);
-        }
-
-        if(categoryDTO.getName()==null){
-            throw new BusinessRuleException(Errors.RECORD_SHOULD_GET_NAME);
         }
 
         Category category = categoryMapper.toEntity(categoryDTO);
@@ -97,10 +90,6 @@ public class CategoryService {
     }
 
     public CategoryDTO getCategoryByID(Long id){
-        if(id==null){
-            throw new BusinessRuleException(Errors.ID_NULL);
-        }
-
         Optional<Category> optionalCategory = categoryRepository.findById(id);
 
         if(optionalCategory.isEmpty()){

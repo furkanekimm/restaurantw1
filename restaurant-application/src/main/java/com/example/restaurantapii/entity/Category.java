@@ -7,6 +7,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 @Where(clause = "deleted = false")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Category extends BaseEntity implements Serializable {
+    @NotNull(message = "Id null")
     private String name;
     private String description;
 

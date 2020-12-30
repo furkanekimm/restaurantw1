@@ -32,9 +32,6 @@ public class WaiterService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public Boolean addWaiter(WaiterDTO waiterDTO){
-        if(waiterDTO.getWaiterName()==null){
-            throw new BusinessRuleException(Errors.RECORD_SHOULD_GET_NAME);
-        }
         Waiter waiter = waiterMapper.toEntity(waiterDTO);
         waiterRepository.save(waiter);
         return true;
@@ -58,7 +55,6 @@ public class WaiterService {
     }
 
     public WaiterDTO getWaiterByID(Long id){
-        waiterIdControl(id);
         Optional<Waiter> optionalWaiter = waiterRepository.findById(id);
         if(optionalWaiter.isEmpty()){
             throw new ContentNotFoundException(Errors.RECORD_NOT_FOUND);
@@ -69,7 +65,6 @@ public class WaiterService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public Boolean deleteWaiter(Long id){
-        waiterIdControl(id);
         if(!waiterRepository.existsById(id)){
             throw new SystemException(Errors.ID_NOT_FOUND);
         }
@@ -97,12 +92,6 @@ public class WaiterService {
         }
         if(!waiter.getMedia().getId().equals(waiterDTO.getMedia().getId())){
             waiter.setMedia(mediaMapper.toEntity(waiterDTO.getMedia()));
-        }
-    }
-
-    private void waiterIdControl(Long id) {
-        if(id==null){
-            throw new BusinessRuleException(Errors.ID_NULL);
         }
     }
 }

@@ -39,9 +39,6 @@ public class ProductService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public ProductDTO addProduct(ProductDTO productDTO) {
-        if(productDTO.getProductName()==null){
-            throw new BusinessRuleException(Errors.RECORD_SHOULD_GET_NAME);
-        }
         Product product =productMapper.toEntity(productDTO);
         List<Long> categoryIds = productDTO.getCategoryId();
 
@@ -60,7 +57,6 @@ public class ProductService {
 
 
     public ProductDTO getProductById(Long id){
-        idNullControl(id);
         Optional<Product> optionalProduct = getProductAndControl(id);
         Product product = optionalProduct.get();
         ProductDTO productDTO = productMapper.toDTO(product);
@@ -77,7 +73,6 @@ public class ProductService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public Boolean deleteProduct(Long id) {
-        idNullControl(id);
         Optional<Product> optionalProduct = getProductAndControl(id);
         Product product = optionalProduct.get();
         product.getCategory().forEach(category -> category.removeProduct(product));
@@ -129,11 +124,6 @@ public class ProductService {
         categories.forEach(category -> category.getProducts().add(product));
     }
 
-    private void idNullControl(Long id) {
-        if(id==null){
-            throw new BusinessRuleException(Errors.ID_NULL);
-        }
-    }
 
     private Optional<Product> getProductAndControl(Long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);

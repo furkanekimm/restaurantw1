@@ -27,20 +27,12 @@ public class RoleService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public RoleDTO addRole(RoleDTO roleDTO){
-        if(roleDTO.getName()==null){
-            throw new BusinessRuleException(Errors.RECORD_SHOULD_GET_NAME);
-        }
-
         roleRepository.save(roleMapper.toEntity(roleDTO));
         return roleDTO;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public String deleteRole(Long id){
-        if(id==null){
-            throw new BusinessRuleException(Errors.ID_NULL);
-        }
-
         if(!roleRepository.existsById(id)){
             throw new SystemException(Errors.ID_NOT_FOUND);
         }

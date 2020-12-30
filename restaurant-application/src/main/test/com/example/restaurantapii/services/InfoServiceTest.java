@@ -22,8 +22,6 @@ public class InfoServiceTest {
     @InjectMocks
     private InfoService infoService;
 
-
-
     @Before
     public void setUp(){
 

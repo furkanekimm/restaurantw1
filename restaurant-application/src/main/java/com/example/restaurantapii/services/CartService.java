@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Service
@@ -22,9 +23,6 @@ public class CartService {
     private CartMapper cartMapper;
 
     public List<CartDTO> addCart(List<CartDTO> cartDto){
-        if(cartDto.isEmpty()){
-            throw new BusinessRuleException(Errors.LIST_IS_EMPTY);
-        }
         List<Cart> cartList = cartMapper.toEntityList(cartDto);
         cartRepository.saveAll(cartList);
         return cartDto;
