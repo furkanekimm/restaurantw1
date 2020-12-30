@@ -10,6 +10,7 @@ import com.example.restaurantapii.builder.MediaDTOBuilder;
 import com.example.restaurantapii.dto.CategoryDTO;
 import com.example.restaurantapii.dto.MediaDTO;
 import com.example.restaurantapii.entity.Category;
+import com.example.restaurantapii.entity.Media;
 import com.example.restaurantapii.entity.Product;
 import com.example.restaurantapii.exceptions.BusinessRuleException;
 import com.example.restaurantapii.exceptions.ContentNotFoundException;
@@ -43,10 +44,14 @@ public class CategoryServicesTest {
     private List<Category> categoryList = new ArrayList<>();
     private Category category = new Category();
     private List<Product> productList = new ArrayList<>();
+    private Media media = new Media();
+
     @Before
     public void setUp() throws Exception{
        mediaDTO.setId(1L);
+       media.setId(2L);
        category.setId(1L);
+       category.setMedia(media);
        categoryDTO = new CategoryDTOBuilder().id(1L).description("abc").name("new").build();
        categoryDTO.setMedia(mediaDTO);
        mediaDTO = new MediaDTOBuilder().id(1L).name("abc.PNG").build();

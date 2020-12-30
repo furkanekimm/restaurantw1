@@ -23,6 +23,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +53,7 @@ public class CustomerServiceTest {
     private List<CustomerDTO> customerDTOList = new ArrayList<>();
     private MediaDTO mediaDTO = new MediaDTO();
     private Media media = new Media();
+
     @Before
     public void setUp(){
         mediaDTO = new MediaDTOBuilder().name("ASDASD").id(1L).build();
@@ -127,6 +132,13 @@ public class CustomerServiceTest {
         customerService.updateCustomer(customerDTO);
     }
 
-
+    @Test
+    public void shouldGetCustomerWithPage(){
+        Pageable pageable = PageRequest.of(0,2);
+        Page<Customer> page = new PageImpl(customerDTOList,pageable,25);
+        when(customerRepository.findAll(pageable)).thenReturn(page);
+        Page<CustomerDTO> res = customerService.listCustomersWithPage(pageable);
+        assertNotNull(res);
+    }
 
 }

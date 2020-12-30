@@ -60,7 +60,6 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,HttpHeaders headers, HttpStatus status, WebRequest request){
-        String error = ex.getFieldError().getDefaultMessage();
         ErrorResponseDTO responseDTO = new ErrorResponseDTO(new Date(),ex.getBindingResult().getFieldError().getDefaultMessage(),"Validation error",null,null);
         return new ResponseEntity<>(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
     }
