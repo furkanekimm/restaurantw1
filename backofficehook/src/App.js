@@ -29,6 +29,7 @@ import AddCustomer from './components/Customer/AddCustomer';
 import EditCustomer from './components/Customer/EditCustomer';
 import {NotificationContainer} from 'react-notifications';
 import HeaderComponent from './components/HeaderComponent';
+import AddCustomerWithFormik from './components/Customer/AddWithFormik';
 function App() {
   return (
     <ContextProvider>
@@ -37,6 +38,7 @@ function App() {
         <Router>
           <div class="container">
             <Switch>
+              <Route path="/formik-example" component={AddCustomerWithFormik}></Route>
               <Route path="/update-customer" component={EditCustomer}></Route>
               <Route path="/add-customer" component={AddCustomer}></Route>
               <Route path="/customers" component={ListCustomers}></Route>
